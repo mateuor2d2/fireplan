@@ -39,3 +39,8 @@ logs
 logs/security/
 
 .env
+
+# Secrets
+.env
+*.env
+cookies.txt

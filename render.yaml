@@ -1,0 +1,12 @@
+# Render configuration
+# Auto-deploy disabled - manual deploy only via Render dashboard or CLI
+# To deploy: use Render dashboard "Manual Deploy" button or render CLI
+services:
+  - type: web
+    name: prevenius
+    runtime: node
+    plan: standard
+    buildCommand: npm install && npm run build
+    startCommand: node .output/server/index.mjs
+    autoDeploy: false
+    branch: main

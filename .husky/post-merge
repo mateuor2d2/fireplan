@@ -1,0 +1,44 @@
+#!/bin/bash
+# Regenerar fuentes pdfmake si no existen
+if [ ! -f public/pdfmake/vfs_fonts.js ]; then
+  echo "Regenerando fuentes pdfmake..."
+  mkdir -p public/pdfmake/fonts
+  cd public/pdfmake/fonts
+  
+  # Descargar Roboto si no existen
+  if [ ! -f Roboto-Regular.ttf ]; then
+    curl -L -o Roboto-Regular.ttf "https://github.com/googlefonts/roboto/raw/main/src/hinted/Roboto-Regular.ttf" 2>/dev/null || \
+    curl -L -o Roboto-Regular.ttf "https://raw.githubusercontent.com/googlefonts/roboto/main/src/hinted/Roboto-Regular.ttf"
+  fi
+  
+  if [ ! -f Roboto-Bold.ttf ]; then
+    curl -L -o Roboto-Bold.ttf "https://github.com/googlefonts/roboto/raw/main/src/hinted/Roboto-Bold.ttf" 2>/dev/null || \
+    curl -L -o Roboto-Bold.ttf "https://raw.githubusercontent.com/googlefonts/roboto/main/src/hinted/Roboto-Bold.ttf"
+  fi
+  
+  cd /home/oc/NuxtsProjects/v9PLANESN4BUI4
+  
+  # Generar vfs_fonts.js
+  if command -v npx &> /dev/null; then
+    npx pdfmake@0.2.18 build-vfs "./public/pdfmake/fonts/"=vfs_fonts.js 2>/dev/null || \
+    node -e "
+      const fs = require('fs');
+      const path = require('path');
+      const fontsDir = './public/pdfmake/fonts';
+      const outputFile = './public/pdfmake/vfs_fonts.js';
+      
+      const fonts = {};
+      const files = fs.readdirSync(fontsDir);
+      
+      files.forEach(file => {
+        const filePath = path.join(fontsDir, file);
+        const content = fs.readFileSync(filePath);
+        fonts[file] = content.toString('base64');
+      });
+      
+      const output = 'window.pdfMake = window.pdfMake || {}; window.pdfMake.vfs = ' + JSON.stringify(fonts, null, 2) + ';';
+      fs.writeFileSync(outputFile, output);
+      console.log('vfs_fonts.js generado con ' + files.length + ' fuentes');
+    "
+  fi
+fi

@@ -1,0 +1,11 @@
+tests/
+**/*.test.ts
+**/*.spec.ts
+**/*.test.js
+.editorconfig
+.gitignore
+.prettierrc
+tsconfig.json
+.eslintrc*
+.nuxt/
+.output/

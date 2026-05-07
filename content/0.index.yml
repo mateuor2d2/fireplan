@@ -1,0 +1,108 @@
+title: "Tus Planes de Seguridad y Salud, Listos en Horas — No en Días"
+description: "La plataforma integral para crear, gestionar y generar planes de seguridad conformes al RD 1627/1997. Cumple la normativa, protege a tu equipo y ahorra tiempo."
+seo:
+  title: "Prevenius — Planes de Seguridad y Salud en Construcción"
+  description: "Prevenius es la plataforma integral para crear, gestionar y generar planes de seguridad para proyectos de construcción. Cumple con el RD 1627/1997 y protege a tu equipo de trabajo."
+navigation: false
+hero:
+  links:
+    - label: "Crear Mi Primer Plan — Gratis"
+      icon: i-lucide-arrow-right
+      trailing: true
+      to: /signup
+      size: xl
+    - label: "Ver Demo Interactiva"
+      icon: i-lucide-play
+      size: xl
+      color: neutral
+      variant: subtle
+      to: /contact
+sections:
+  - title: "Sin Prevenius vs. Con Prevenius"
+    description: "Transforma tu enfoque de seguridad con nuestra suite integral de herramientas."
+    id: before-after
+    orientation: horizontal
+    features:
+      - name: "Antes: Documentos Word desordenados"
+        description: "Días o semanas creando cada plan, incertidumbre sobre cumplimiento normativo, archivos perdidos en emails."
+        icon: i-lucide-file-x
+      - name: "Después: Planes digitales centralizados"
+        description: "Planes completos en horas con plantillas profesionales, cumplimiento garantizado, todo accesible desde cualquier dispositivo."
+        icon: i-lucide-check-circle
+  - title: "Crea tu Plan en 3 Pasos"
+    description: "Un flujo de trabajo intuitivo diseñado por y para profesionales de la construcción."
+    id: workflow
+    orientation: horizontal
+    reverse: false
+    features:
+      - name: "1. Crea tu Plan"
+        description: "Introduce los datos de la obra: ubicación, superficie, presupuesto, duración. Añade contratista y promotor. Todo guiado paso a paso."
+        icon: i-lucide-file-plus
+      - name: "2. Define Presupuestos y Riesgos"
+        description: "Añade capítulos, partidas y conceptos. Evalúa riesgos con tablas profesionales. Los cálculos se hacen automáticamente."
+        icon: i-lucide-calculator
+      - name: "3. Genera, Comparte e Imprime"
+        description: "Exporta a PDF profesional con tu marca. Genera códigos QR para acceso en obra. Comparte con inspectores y ayuntamientos."
+        icon: i-lucide-share-2
+features:
+  title: "Funcionalidades que Marcan la Diferencia"
+  description: "Nuestra plataforma combina fiabilidad empresarial con características pensadas para profesionales de la construcción."
+  items:
+    - title: "Planes de Seguridad Completos"
+      description: "Crea planes detallados con datos de obra, contratista, promotor, condiciones del entorno, instalaciones y equipamiento."
+      icon: i-lucide-hard-hat
+    - title: "Presupuestos Detallados"
+      description: "Sistema completo con capítulos, partidas y conceptos. Presupuesto de obra, de seguridad y precios por hora calculados automáticamente."
+      icon: i-lucide-calculator
+    - title: "Evaluación de Riesgos"
+      description: "Tablas maestras de riesgos, probabilidad y gravedad. EPIs, protecciones colectivas, maquinaria y medios auxiliares."
+      icon: i-lucide-shield-alert
+    - title: "Códigos QR Inteligentes"
+      description: "Genera códigos QR para acceso público temporal. Inspectores y técnicos acceden al plan sin login, de forma segura y revocable."
+      icon: i-lucide-qr-code
+    - title: "PDFs Profesionales"
+      description: "Genera documentos PDF con plantillas personalizables. Incluye tu logotipo, colores corporativos y formato profesional."
+      icon: i-lucide-file-text
+    - title: "Reporte de Incidencias"
+      description: "Cualquier persona en obra puede reportar incidencias escaneando un QR. Seguimiento completo con estados y resolución."
+      icon: i-lucide-alert-triangle
+testimonials:
+  headline: "Historias de Éxito"
+  title: "Profesionales de la Construcción Confían en Prevenius"
+  description: "Descubre cómo empresas constructoras han transformado su gestión de seguridad con nuestra plataforma."
+  items:
+    - quote: "Prevenius nos ha permitido reducir el tiempo de creación de planes de seguridad en un 80%. Ahora podemos enfocarnos en la ejecución de la obra en lugar de en la documentación."
+      user:
+        name: "Antonio García"
+        description: "Director de Obras en Construcciones Martínez"
+        avatar:
+          src: "https://i.pravatar.cc/120?img=1"
+    - quote: "La plataforma es increíblemente intuitiva. Nuestro equipo técnico aprendió a usarla en cuestión de horas. El cumplimiento normativo nunca había sido tan sencillo."
+      user:
+        name: "María López"
+        description: "Coordinadora de Seguridad en Edificar S.A."
+        avatar:
+          src: "https://i.pravatar.cc/120?img=7"
+    - quote: "Durante una auditoría de seguridad, nuestro plan digitalizado de Prevenius impresionó a los inspectores. La organización y accesibilidad de la información facilitó enormemente el proceso."
+      user:
+        name: "Carlos Ruiz"
+        description: "Jefe de Proyecto en Infraestructuras Urbanas"
+        avatar:
+          src: "https://i.pravatar.cc/120?img=3"
+    - quote: "La gestión de múltiples contratistas y subcontratistas solía ser un dolor de cabeza. Con Prevenius, toda la información está centralizada y actualizada en tiempo real."
+      user:
+        name: "Elena Moreno"
+        description: "Responsable de Calidad en RehabilitaTech"
+        avatar:
+          src: "https://i.pravatar.cc/120?img=5"
+cta:
+  title: "Empieza a Crear Planes de Seguridad Profesionales Hoy Mismo"
+  description: "Prueba gratuita. Sin tarjeta de crédito. Cancela cuando quieras. Configuración en 2 minutos, soporte en español y datos seguros en la UE."
+  links:
+    - label: "Comenzar Gratis"
+      to: /signup
+      icon: i-lucide-user-plus
+    - label: "Solicitar Demo"
+      to: /contact
+      icon: i-lucide-play
+      variant: subtle

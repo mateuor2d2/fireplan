@@ -1,0 +1,31 @@
+# Plan de Seguridad: {{nom_obra}}
+
+## Información del Proyecto
+**Descripción:** {{desc_obra}}
+**Dirección:** {{dir_obra}}, {{poblacion_obra}} ({{cp_obra}})
+
+## Imágenes del Plan
+{{#if pdfmakeImages}}
+  {{#each pdfmakeImages}}
+    {{{pdfmakeImageWithDesc this}}}
+  {{/each}}
+{{else}}
+  <p>No hay imágenes disponibles para este plan.</p>
+{{/if}}
+
+## Presupuesto
+{{#if hasPresupuesto}}
+  {{#each presupuesto_by_tipo}}
+    ### {{tipo}}
+    {{#each items}}
+      - {{concepto}}: {{precioud}} {{ud}}
+    {{/each}}
+    **Subtotal:** {{suma_parcial}} €
+  {{/each}}
+  **Total:** {{suma_total}} €
+{{else}}
+  No se ha definido presupuesto para este plan.
+{{/if}}
+
+## Conclusión
+Plan de seguridad generado para {{nom_obra}} con fecha {{createdAt}}.

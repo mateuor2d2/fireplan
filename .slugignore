@@ -1,0 +1,79 @@
+# Render Slug Ignore - Excludes files from deployment slug
+# These files are needed for build but not runtime
+
+# Development files
+.git
+.gitignore
+.env
+.env.local
+.env.*
+!.env.example
+*.md
+!README.md
+
+# IDE files
+.idea
+.vscode
+.fleet
+.history
+.DS_Store
+
+# Debug and test files
+debug/
+*.test.ts
+*.spec.ts
+**/__tests__/
+coverage/
+.nyc_output/
+
+# Documentation (not needed at runtime)
+CLAUDE.md
+CLAUDE.local.md
+ADMIN-TOOLS-README.md
+DETALLES_GRAFICOS_TEMPLATES.md
+debug-pdf-image-issues.md
+
+# Build artifacts
+.nuxt
+dist
+.cache
+.nitro
+
+# Keep .output for deployment (contains built app)
+# .output is needed at runtime - DO NOT exclude
+
+# Auto Claude data
+.auto-claude/
+.auto-claude-security.json
+.auto-claude-status
+.claude_settings.json
+.worktrees/
+.security-key
+logs/security/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.log
+
+# Local data (will use Render's disk or external DB)
+.data/
+
+# Conversion scripts (one-time use)
+convert/
+
+# Debug scripts
+check-user.js
+debug-image-comparison.js
+delete-pending-payment.js
+fix-https-urls.js
+
+# Large base64 files (should be in S3)
+actuacionaccidente.b64
+
+# Cookies and session files
+cookies.txt
+
+# Template examples
+example-template-with-pdfmake-images.handlebars

@@ -1,0 +1,87 @@
+title: "Planes que Crecen con tu Constructora"
+description: "Elige el plan que se adapte a tu volumen de proyectos. Todos incluyen soporte en español y actualizaciones normativas. Prueba gratuita de 14 días."
+seo:
+  title: "Precios - Planes de Seguridad en Construcción - Prevenius"
+  description: "Elige el plan de Prevenius que mejor se adapte a las necesidades de tu empresa constructora. Desde 29,90€/mes."
+navigation.icon: i-lucide-credit-card
+plans:
+  - title: Básico
+    description: "Ideal para autónomos y pequeñas empresas con pocos proyectos al año."
+    price:
+      month: "€29,90"
+      year: "€299,90"
+    button:
+      label: Comenzar
+      color: neutral
+      variant: subtle
+    features:
+      - "Hasta 3 planes de seguridad al mes"
+      - "1 usuario"
+      - "Plantillas básicas"
+      - "Exportación PDF"
+      - "Códigos QR"
+      - "Evaluación de riesgos"
+      - "Soporte por email (48h)"
+      - "1 GB de almacenamiento"
+  - title: Profesional
+    description: "Perfecto para pymes con múltiples proyectos simultáneos."
+    price:
+      month: "€79,90"
+      year: "€799,90"
+    highlight: true
+    scale: true
+    badge: "Más Popular"
+    button:
+      label: Comenzar
+      size: lg
+    features:
+      - "Hasta 15 planes de seguridad al mes"
+      - "5 usuarios"
+      - "Todas las plantillas + personalización"
+      - "Exportación PDF e impresión"
+      - "Soporte prioritario"
+      - "10 GB de almacenamiento"
+      - "Personalización de plantillas"
+  - title: Empresa
+    description: "Para grandes constructoras con alta demanda de planes de seguridad."
+    price:
+      month: "€199,90"
+      year: "€1999,90"
+    button:
+      label: Comenzar
+      color: neutral
+      variant: subtle
+    features:
+      - "Planes ilimitados"
+      - "Usuarios ilimitados"
+      - "Todas las plantillas + personalización avanzada"
+      - "Exportación PDF, impresión y firma digital"
+      - "Soporte 24/7"
+      - "Almacenamiento ilimitado"
+      - "API para integración con sistemas existentes"
+      - "Reportes avanzados"
+logos:
+  title: Confían en nosotros empresas constructoras líderes
+  icons:
+    - i-simple-icons-amazonaws
+    - i-simple-icons-heroku
+    - i-simple-icons-netlify
+    - i-simple-icons-vercel
+    - i-simple-icons-cloudflare
+faq:
+  title: Preguntas frecuentes
+  description: Encuentra respuestas a las preguntas más comunes sobre nuestros planes y servicios.
+  items:
+    - label: ¿Es seguro el servicio?
+      content: Sí, Prevenius cumple con los más altos estándares de seguridad y protección de datos en la industria de la construcción. Todos los datos se almacenan en servidores certificados y se transmiten mediante conexiones encriptadas.
+      defaultOpen: true
+    - label: ¿Cómo puedo cancelar mi suscripción?
+      content: Puedes cancelar tu suscripción en cualquier momento desde la sección de configuración de tu cuenta. Tu acceso continuará hasta el final del período de facturación actual.
+    - label: ¿Ofrecen planes personalizados para grandes empresas?
+      content: Sí, tenemos planes personalizados para grandes constructoras con necesidades específicas. Contacta con nuestro equipo de ventas para discutir una solución adaptada a tus necesidades.
+    - label: ¿Puedo cambiar de plan más adelante?
+      content: Por supuesto. Puedes actualizar o degradar tu plan en cualquier momento. Los cambios se aplican de forma prorrateada según el tiempo restante en tu período de facturación actual.
+    - label: ¿Ofrecen reembolsos?
+      content: Ofrecemos una garantía de satisfacción de 30 días. Si no estás satisfecho con nuestro servicio en ese período, contacta con soporte para solicitar un reembolso.
+    - label: ¿Qué tipo de soporte ofrecen?
+      content: Ofrecemos soporte técnico por email para todos los planes, con tiempos de respuesta garantizados de 24-48 horas. Los planes Profesional y Empresa incluyen soporte prioritario y 24/7 respectivamente.

@@ -1,0 +1,13 @@
+{
+  "skills": {
+    "nuxt": "nuxt/skill.ts",
+    "nuxt-4-composables-reactivity": "nuxt-4-composables-reactivity/skill.ts",
+    "nuxt-4-development": "nuxt-4-development/skill.ts",
+    "nuxt-better-auth": "nuxt-better-auth/skill.ts",
+    "nuxt-content": "nuxt-content/skill.ts",
+    "nuxt-ui": "nuxt-ui/skill.ts",
+    "vue": "vue/skill.ts",
+    "vueuse-functions": "vueuse-functions/skill.ts",
+    "openclaw-pss": "openclaw-pss/skill.ts"
+  }
+}

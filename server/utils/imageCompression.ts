@@ -105,13 +105,13 @@ export async function compressImage(
   }
 
   try {
-    void(`[Image Compression] Starting compression: ${imageBuffer.length} bytes`)
+    console.log(`[Image Compression] Starting compression: ${imageBuffer.length} bytes`)
 
     let sharpInstance = sharp(imageBuffer)
 
     // Get original image metadata
     const metadata = await sharpInstance.metadata()
-    void(`[Image Compression] Original metadata:`, {
+    console.log(`[Image Compression] Original metadata:`, {
       width: metadata.width,
       height: metadata.height,
       format: metadata.format,
@@ -137,7 +137,7 @@ export async function compressImage(
           newWidth = Math.round((newWidth * maxHeight) / newHeight)
         }
 
-        void(`[Image Compression] Resizing from ${metadata.width}x${metadata.height} to ${newWidth}x${newHeight}`)
+        console.log(`[Image Compression] Resizing from ${metadata.width}x${metadata.height} to ${newWidth}x${newHeight}`)
 
         sharpInstance = sharpInstance.resize(newWidth, newHeight, {
           fit: 'inside',
@@ -171,12 +171,12 @@ export async function compressImage(
           .toBuffer()
     }
 
-    void(`[Image Compression] Compression completed: ${compressedBuffer.length} bytes`)
+    console.log(`[Image Compression] Compression completed: ${compressedBuffer.length} bytes`)
 
     // Check if we need to compress further to meet size requirements
     const currentSizeKB = compressedBuffer.length / 1024
     if (currentSizeKB > maxSizeKB) {
-      void(`[Image Compression] Image still too large (${currentSizeKB}KB > ${maxSizeKB}KB), reducing quality`)
+      console.log(`[Image Compression] Image still too large (${currentSizeKB}KB > ${maxSizeKB}KB), reducing quality`)
 
       // Try with lower quality
       const lowerQuality = Math.max(quality - 20, 20)
@@ -221,7 +221,7 @@ export async function compressImageToBase64(
     const base64 = compressedBuffer.toString('base64')
     const dataUrl = `data:${mimeType};base64,${base64}`
 
-    void(`[Image Compression] Created base64 data URL: ${dataUrl.length} characters (${Math.round(compressedBuffer.length / 1024)}KB)`)
+    console.log(`[Image Compression] Created base64 data URL: ${dataUrl.length} characters (${Math.round(compressedBuffer.length / 1024)}KB)`)
 
     return dataUrl
   } catch (error) {
@@ -236,7 +236,7 @@ export async function compressImageToBase64(
     try {
       const base64 = imageBuffer.toString('base64')
       const fallbackUrl = `data:image/jpeg;base64,${base64}`
-      void(`[Image Compression] ✅ Fallback base64 conversion successful: ${fallbackUrl.length} characters`)
+      console.log(`[Image Compression] ✅ Fallback base64 conversion successful: ${fallbackUrl.length} characters`)
       return fallbackUrl
     } catch (fallbackError) {
       console.error(`[Image Compression] Even fallback conversion failed:`, fallbackError)

@@ -7,6 +7,7 @@
  *
  * PDF generation is on-demand, so we load pdfmake only when needed.
  */
+// @ts-ignore
 import type { TDocumentDefinitions } from 'pdfmake/interfaces'
 
 // Cache for loaded modules
@@ -24,8 +25,8 @@ async function loadPdfMake() {
 
   try {
     // Dynamic imports - works with both bundled and externalized pdfmake
-    const pdfMakeModule = await import('pdfmake/build/pdfmake.js')
-    const pdfFonts = await import('pdfmake/build/vfs_fonts.js')
+    const pdfMakeModule = await import('pdfmake/build/pdfmake.js' as any)
+    const pdfFonts = await import('pdfmake/build/vfs_fonts.js' as any)
     
     // Handle both ESM (.default) and CJS (direct) exports
     const pdfMakeLib = pdfMakeModule.default || pdfMakeModule

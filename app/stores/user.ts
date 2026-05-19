@@ -384,7 +384,7 @@ export const useUserStore = defineStore('user', {
             ...response.data,
             // Ensure we have the timestamps from server response or keep existing
             createdAt: response.data.createdAt || this.user.qrSettings?.createdAt || new Date(),
-            updatedAt: response.data.updatedAt || new Date()
+            
           }
 
           // Update local user store with new QR settings

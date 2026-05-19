@@ -1,7 +1,7 @@
 import { OAuth2Client } from 'google-auth-library'
 
 export default defineEventHandler(async (event) => {
-  const config = useRuntimeConfig()
+  const config: any = useRuntimeConfig()
 
   const oauth2Client = new OAuth2Client(
     config.oauth.google.clientId,

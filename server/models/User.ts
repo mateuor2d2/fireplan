@@ -17,7 +17,7 @@ interface AppSettings {
   // Printing templates settings
 }
 
-export interface IUser extends Document {
+export interface IUser {
   _id: string
   ttl: string
   created: string

@@ -1,7 +1,7 @@
 import { OAuthApp } from '@octokit/oauth-app'
 
 export default defineEventHandler(async (event) => {
-  const config = useRuntimeConfig()
+  const config: any = useRuntimeConfig()
 
   if (!config.oauth.github.clientId || !config.oauth.github.clientSecret) {
     throw createError({

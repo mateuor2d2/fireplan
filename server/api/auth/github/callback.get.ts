@@ -4,7 +4,7 @@ import { User } from '../../../models/User'
 
 export default defineEventHandler(async (event) => {
   try {
-    const config = useRuntimeConfig()
+    const config: any = useRuntimeConfig()
     const query = getQuery(event)
 
     if (query.error) {

@@ -39,7 +39,7 @@ export default defineEventHandler(async (event) => {
 
   // If no active paid subscription, enforce starter
   const effectivePlan = isActive ? (user.plan || 'starter') : 'starter'
-  const config = getPlanConfig(effectivePlan)
+  const config = getPlanConfig(effectivePlan) || { features: [], limits: {} }
 
   event.context.subscription = {
     plan: effectivePlan,

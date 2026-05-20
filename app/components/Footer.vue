@@ -25,9 +25,12 @@ const links = {
     <template #top>
       <UFooterColumns :links="links">
         <template #left>
-          <LogoPro class="h-8 w-auto" />
+          <div class="flex items-center gap-2">
+            <UIcon name="i-heroicons-fire" class="w-6 h-6 text-primary" />
+            <span class="font-bold text-lg">FirePlan</span>
+          </div>
           <p class="text-sm text-gray-500 mt-2">
-            FirePlan — Plan de Emergencia y Autoprotección
+            Plan de Emergencia y Autoprotección
           </p>
         </template>
       </UFooterColumns>

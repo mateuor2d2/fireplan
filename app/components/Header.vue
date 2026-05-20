@@ -30,7 +30,10 @@ const links = [{
 <template>
   <UHeader :links="links">
     <template #logo>
-      FirePlan
+      <div class="flex items-center gap-2">
+        <UIcon name="i-heroicons-fire" class="w-6 h-6 text-primary" />
+        <span class="font-bold text-lg">FirePlan</span>
+      </div>
     </template>
 
     <template #right>

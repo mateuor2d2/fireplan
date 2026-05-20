@@ -1,6 +1,6 @@
 <template>
   <div class="p-6">
-    <UButton icon="i-heroicons-arrow-left" variant="ghost" @click=".back()" class="mb-4">Volver</UButton>
+    <UButton icon="i-heroicons-arrow-left" variant="ghost" @click="$router.back()" class="mb-4">Volver</UButton>
     <div v-if="center">
       <h1 class="text-2xl font-bold mb-2">{{ center.name }}</h1>
       <UBadge :color="center.status === 'active' ? 'green' : 'gray'" class="mb-4">{{ center.status }}</UBadge>
@@ -18,7 +18,7 @@
         </UCard>
       </div>
     </div>
-    <div v-else class="text-center py-10"><ULoadingIcon class="mx-auto" /></div>
+    <div v-else class="text-center py-10"><UIcon name="i-heroicons-arrow-path" class="w-8 h-8 animate-spin mx-auto" /></div>
   </div>
 </template>
 
@@ -27,7 +27,7 @@ const route = useRoute()
 const center = ref(null)
 onMounted(async () => {
   const id = route.params.id
-  const res = await ('/api/v1/centers/' + id)
+  const res = await $fetch('/api/v1/centers/' + id) as any
   center.value = res.data
 })
 </script>

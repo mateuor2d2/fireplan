@@ -1,217 +1,218 @@
 <script setup lang="ts">
+import * as z from 'zod'
+import type { FormSubmitEvent } from '@nuxt/ui'
+
 definePageMeta({
   layout: 'auth'
 })
 
 useSeoMeta({
-  title: 'Crear Cuenta - Prevenius',
-  description: 'Crea tu cuenta gratuita en Prevenius y empieza a gestionar tus planes de seguridad. Prueba gratuita de 14 días.'
+  title: 'Crear Cuenta - FirePlan',
+  description: 'Crea tu cuenta en FirePlan y empieza a gestionar tu plan de emergencia y autoprotección.'
 })
 
-const form = reactive({
-  name: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  acceptTerms: false
+const toast = useToast()
+const router = useRouter()
+
+const schema = z.object({
+  name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
+  email: z.string().email('Email inválido'),
+  password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres'),
+  confirmPassword: z.string()
+}).refine((data) => data.password === data.confirmPassword, {
+  message: 'Las contraseñas no coinciden',
+  path: ['confirmPassword']
 })
 
+type Schema = z.output<typeof schema>
+
+const state = reactive<Partial<Schema>>({
+  name: undefined,
+  email: undefined,
+  password: undefined,
+  confirmPassword: undefined
+})
+
+const showPassword = ref(false)
+const showConfirmPassword = ref(false)
 const loading = ref(false)
-const error = ref('')
 
-const handleRegister = async () => {
-  error.value = ''
-
-  // Validaciones
-  if (form.password !== form.confirmPassword) {
-    error.value = 'Las contraseñas no coinciden'
-    return
-  }
-
-  if (form.password.length < 6) {
-    error.value = 'La contraseña debe tener al menos 6 caracteres'
-    return
-  }
-
-  if (!form.acceptTerms) {
-    error.value = 'Debes aceptar los términos y condiciones'
-    return
-  }
-
+async function onSubmit(event: FormSubmitEvent<Schema>) {
   loading.value = true
-
   try {
-    const { data } = await $fetch('/api/auth/signup', {
+    await $fetch('/api/auth/signup', {
       method: 'POST',
       body: {
-        name: form.name,
-        email: form.email,
-        password: form.password
+        name: event.data.name,
+        email: event.data.email,
+        password: event.data.password
       }
     })
-
-    if (data) {
-      await navigateTo('/login')
-    }
-  } catch (err: any) {
-    error.value = err.data?.message || 'Error al crear la cuenta'
+    toast.add({
+      title: '¡Cuenta creada!',
+      description: 'Tu cuenta ha sido creada correctamente. Ahora puedes iniciar sesión.',
+      color: 'success'
+    })
+    await router.push('/login')
+  } catch (error: any) {
+    toast.add({
+      title: 'Error al crear cuenta',
+      description: error.data?.message || error.message || 'Ha ocurrido un error',
+      color: 'error'
+    })
   } finally {
     loading.value = false
   }
 }
-
-const loginWithGoogle = async () => {
-  await navigateTo('/api/auth/google', { external: true })
-}
-
-const loginWithGitHub = async () => {
-  await navigateTo('/api/auth/github', { external: true })
-}
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8">
-      <div class="text-center">
-        <h2 class="text-3xl font-bold text-gray-900">
-          Crear cuenta
-        </h2>
-        <p class="mt-2 text-sm text-gray-600">
+  <div class="register-container">
+    <div class="register-header">
+      <LogoPro class="register-logo" />
+      <h1 class="register-title">Crear Cuenta</h1>
+      <p class="register-subtitle">Únete a FirePlan y gestiona tu plan de emergencia</p>
+    </div>
+
+    <UForm
+      :schema="schema"
+      :state="state"
+      class="register-form"
+      @submit="onSubmit"
+    >
+      <UFormField label="Nombre" name="name">
+        <UInput
+          v-model="state.name"
+          placeholder="Tu nombre"
+          icon="i-heroicons-user"
+          autocomplete="name"
+        />
+      </UFormField>
+
+      <UFormField label="Email" name="email">
+        <UInput
+          v-model="state.email"
+          type="email"
+          placeholder="tu@empresa.com"
+          icon="i-heroicons-envelope"
+          autocomplete="email"
+        />
+      </UFormField>
+
+      <UFormField label="Contraseña" name="password">
+        <UInput
+          v-model="state.password"
+          :type="showPassword ? 'text' : 'password'"
+          placeholder="••••••••"
+          icon="i-heroicons-lock-closed"
+          autocomplete="new-password"
+        >
+          <template #trailing>
+            <UButton
+              color="neutral"
+              variant="link"
+              :icon="showPassword ? 'i-heroicons-eye-slash' : 'i-heroicons-eye'"
+              :padded="false"
+              @click="showPassword = !showPassword"
+            />
+          </template>
+        </UInput>
+      </UFormField>
+
+      <UFormField label="Confirmar Contraseña" name="confirmPassword">
+        <UInput
+          v-model="state.confirmPassword"
+          :type="showConfirmPassword ? 'text' : 'password'"
+          placeholder="••••••••"
+          icon="i-heroicons-lock-closed"
+          autocomplete="new-password"
+        >
+          <template #trailing>
+            <UButton
+              color="neutral"
+              variant="link"
+              :icon="showConfirmPassword ? 'i-heroicons-eye-slash' : 'i-heroicons-eye'"
+              :padded="false"
+              @click="showConfirmPassword = !showConfirmPassword"
+            />
+          </template>
+        </UInput>
+      </UFormField>
+
+      <div class="register-actions">
+        <UButton
+          type="submit"
+          color="primary"
+          size="lg"
+          block
+          :loading="loading"
+        >
+          Crear Cuenta
+        </UButton>
+      </div>
+
+      <div class="register-links">
+        <p class="login-prompt">
           ¿Ya tienes cuenta?
-          <NuxtLink
+          <UButton
             to="/login"
-            class="font-medium text-blue-600 hover:text-blue-500"
+            variant="link"
+            color="primary"
+            size="sm"
           >
             Inicia sesión
-          </NuxtLink>
+          </UButton>
         </p>
       </div>
-
-      <form
-        class="mt-8 space-y-6"
-        @submit.prevent="handleRegister"
-      >
-        <div class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Nombre completo</label>
-            <UInput
-              v-model="form.name"
-              type="text"
-              placeholder="Juan García"
-              required
-            />
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Email</label>
-            <UInput
-              v-model="form.email"
-              type="email"
-              placeholder="tu@email.com"
-              required
-            />
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Contraseña</label>
-            <UInput
-              v-model="form.password"
-              type="password"
-              placeholder="••••••••"
-              required
-            />
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Confirmar contraseña</label>
-            <UInput
-              v-model="form.confirmPassword"
-              type="password"
-              placeholder="••••••••"
-              required
-            />
-          </div>
-
-          <div class="flex items-center">
-            <UCheckbox
-              v-model="form.acceptTerms"
-              required
-            />
-            <label class="ml-2 block text-sm text-gray-900">
-              Acepto los
-              <a
-                href="#"
-                class="text-blue-600 hover:text-blue-500"
-              >Términos y condiciones</a>
-              y la
-              <a
-                href="#"
-                class="text-blue-600 hover:text-blue-500"
-              >Política de privacidad</a>
-            </label>
-          </div>
-        </div>
-
-        <div
-          v-if="error"
-          class="text-red-600 text-sm text-center"
-        >
-          {{ error }}
-        </div>
-
-        <div>
-          <UButton
-            type="submit"
-            color="primary"
-            :loading="loading"
-            class="w-full"
-          >
-            Crear cuenta
-          </UButton>
-        </div>
-      </form>
-
-      <div class="mt-6">
-        <div class="relative">
-          <div class="absolute inset-0 flex items-center">
-            <div class="w-full border-t border-gray-300" />
-          </div>
-          <div class="relative flex justify-center text-sm">
-            <span class="px-2 bg-gray-50 text-gray-500">O continúa con</span>
-          </div>
-        </div>
-
-        <div class="mt-6 grid grid-cols-2 gap-3">
-          <div>
-            <UButton
-              color="white"
-              variant="outline"
-              class="w-full"
-              @click="loginWithGoogle"
-            >
-              <Icon
-                name="logos:google-icon"
-                class="w-5 h-5 mr-2"
-              />
-              Google
-            </UButton>
-          </div>
-          <div>
-            <UButton
-              color="white"
-              variant="outline"
-              class="w-full"
-              @click="loginWithGitHub"
-            >
-              <Icon
-                name="logos:github-icon"
-                class="w-5 h-5 mr-2"
-              />
-              GitHub
-            </UButton>
-          </div>
-        </div>
-      </div>
-    </div>
+    </UForm>
   </div>
 </template>
+
+<style scoped>
+.register-container {
+  width: 100%;
+  max-width: 400px;
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.register-logo {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1rem;
+}
+
+.register-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.register-subtitle {
+  font-size: 0.875rem;
+  color: var(--ui-text-dimmed);
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.register-actions {
+  margin-top: 0.5rem;
+}
+
+.register-links {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.login-prompt {
+  font-size: 0.875rem;
+  color: var(--ui-text-dimmed);
+}
+</style>

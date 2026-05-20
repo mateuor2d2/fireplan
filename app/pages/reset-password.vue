@@ -1,224 +1,203 @@
 <script setup lang="ts">
-const route = useRoute()
-const token = ref(route.query.token || '')
-const password = ref('')
-const confirmPassword = ref('')
-const isSubmitted = ref(false)
-const isLoading = ref(false)
-const error = ref('')
+import * as z from 'zod'
+import type { FormSubmitEvent } from '@nuxt/ui'
 
 definePageMeta({
   layout: 'auth'
 })
 
 useSeoMeta({
-  title: 'Nueva Contraseña - Prevenius',
-  description: 'Establece tu nueva contraseña para recuperar el acceso a tu cuenta de Prevenius.'
+  title: 'Nueva Contraseña - FirePlan',
+  description: 'Establece tu nueva contraseña para recuperar el acceso a tu cuenta de FirePlan.'
 })
 
-// Validate password strength
-const passwordStrength = computed(() => {
-  if (!password.value) return 0
-  let strength = 0
-  if (password.value.length >= 8) strength += 1
-  if (/[A-Z]/.test(password.value)) strength += 1
-  if (/[0-9]/.test(password.value)) strength += 1
-  if (/[^A-Za-z0-9]/.test(password.value)) strength += 1
-  return strength
+const toast = useToast()
+const router = useRouter()
+const route = useRoute()
+
+const token = route.query.token as string
+const loading = ref(false)
+const success = ref(false)
+
+const schema = z.object({
+  password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres'),
+  confirmPassword: z.string()
+}).refine((data) => data.password === data.confirmPassword, {
+  message: 'Las contraseñas no coinciden',
+  path: ['confirmPassword']
 })
 
-const passwordStrengthText = computed(() => {
-  const strength = passwordStrength.value
-  if (strength === 0) return 'Muy débil'
-  if (strength === 1) return 'Débil'
-  if (strength === 2) return 'Moderada'
-  if (strength === 3) return 'Fuerte'
-  return 'Muy fuerte'
+type Schema = z.output<typeof schema>
+
+const state = reactive<Partial<Schema>>({
+  password: undefined,
+  confirmPassword: undefined
 })
 
-const passwordStrengthColor = computed(() => {
-  const strength = passwordStrength.value
-  if (strength <= 1) return 'red'
-  if (strength <= 2) return 'orange'
-  if (strength <= 3) return 'yellow'
-  return 'emerald'
-})
+const showPassword = ref(false)
+const showConfirmPassword = ref(false)
 
-const validate = () => {
-  error.value = ''
-
-  if (!password.value) {
-    error.value = 'La contraseña es obligatoria'
-    return false
+async function onSubmit(event: FormSubmitEvent<Schema>) {
+  if (!token) {
+    toast.add({
+      title: 'Error',
+      description: 'Token inválido o expirado',
+      color: 'error'
+    })
+    return
   }
 
-  if (password.value.length < 8) {
-    error.value = 'La contraseña debe tener al menos 8 caracteres'
-    return false
-  }
-
-  if (password.value !== confirmPassword.value) {
-    error.value = 'Las contraseñas no coinciden'
-    return false
-  }
-
-  return true
-}
-
-async function handleSubmit() {
-  if (!validate()) return
-
-  isLoading.value = true
-
+  loading.value = true
   try {
     await $fetch('/api/auth/reset-password', {
       method: 'POST',
       body: {
-        token: token.value,
-        password: password.value
+        token,
+        password: event.data.password
       }
     })
-    isSubmitted.value = true
-  } catch (err: any) {
-    error.value = err.data?.message || 'Ha ocurrido un error. Por favor, inténtalo de nuevo.'
+    success.value = true
+    toast.add({
+      title: 'Contraseña actualizada',
+      description: 'Tu contraseña ha sido restablecida correctamente.',
+      color: 'success'
+    })
+    setTimeout(() => router.push('/login'), 2000)
+  } catch (error: any) {
+    toast.add({
+      title: 'Error',
+      description: error.data?.message || 'No se pudo restablecer la contraseña',
+      color: 'error'
+    })
   } finally {
-    isLoading.value = false
+    loading.value = false
   }
 }
 </script>
 
 <template>
-  <UCard class="max-w-sm w-full bg-white/75 dark:bg-white/5 backdrop-blur">
-    <template #header>
-      <div class="text-center">
-        <UIcon
-          name="i-heroicons-key"
-          class="w-8 h-8 mx-auto text-primary-500"
-        />
-        <h1 class="mt-4 text-2xl font-bold text-gray-900 dark:text-white">
-          Nueva Contraseña
-        </h1>
-        <p
-          v-if="!isSubmitted"
-          class="mt-2 text-sm text-gray-600 dark:text-gray-300"
-        >
-          Introduce tu nueva contraseña.
-        </p>
-      </div>
-    </template>
-
-    <div v-if="!isSubmitted">
-      <UForm
-        :state="{ password, confirmPassword }"
-        class="space-y-4"
-        @submit="handleSubmit"
-      >
-        <UFormField
-          label="Nueva contraseña"
-          name="password"
-        >
-          <UInput
-            v-model="password"
-            type="password"
-            placeholder="Introduce tu nueva contraseña"
-            :ui="{
-              base: 'form-input',
-              focus: 'focus:ring-emerald-500 focus:border-emerald-500'
-            }"
-            required
-          />
-          <template #description>
-            <div class="mt-1">
-              <div class="flex items-center justify-between">
-                <span class="text-xs text-gray-500 dark:text-gray-400">Seguridad de la contraseña:</span>
-                <span
-                  class="text-xs font-medium"
-                  :class="{
-                    'text-red-500': passwordStrength <= 1,
-                    'text-orange-500': passwordStrength === 2,
-                    'text-yellow-500': passwordStrength === 3,
-                    'text-emerald-500': passwordStrength >= 4
-                  }"
-                >
-                  {{ passwordStrengthText }}
-                </span>
-              </div>
-              <div class="mt-1 flex space-x-1">
-                <div
-                  v-for="i in 4"
-                  :key="i"
-                  class="h-1 flex-1 rounded-full"
-                  :class="{
-                    'bg-red-500': passwordStrength === 0,
-                    'bg-orange-500': passwordStrength === 1,
-                    'bg-yellow-500': passwordStrength === 2,
-                    'bg-emerald-500': passwordStrength >= 3,
-                    'bg-gray-200 dark:bg-gray-700': i > passwordStrength
-                  }"
-                />
-              </div>
-            </div>
-          </template>
-        </UFormField>
-
-        <UFormField
-          label="Confirmar nueva contraseña"
-          name="confirmPassword"
-        >
-          <UInput
-            v-model="confirmPassword"
-            type="password"
-            placeholder="Confirma tu nueva contraseña"
-            :ui="{
-              base: 'form-input',
-              focus: 'focus:ring-emerald-500 focus:border-emerald-500'
-            }"
-            required
-          />
-        </UFormField>
-
-        <UButton
-          type="submit"
-          color="primary"
-          block
-          :loading="isLoading"
-          :disabled="isLoading"
-          class="mt-6"
-        >
-          Guardar contraseña
-        </UButton>
-
-        <div
-          v-if="error"
-          class="mt-4 text-sm text-red-500 text-center"
-        >
-          {{ error }}
-        </div>
-      </UForm>
+  <div class="reset-container">
+    <div class="reset-header">
+      <LogoPro class="reset-logo" />
+      <h1 class="reset-title">Nueva Contraseña</h1>
+      <p class="reset-subtitle">Establece una nueva contraseña para tu cuenta</p>
     </div>
 
-    <div
+    <div v-if="success" class="success-message">
+      <UIcon name="i-heroicons-check-circle" class="success-icon" />
+      <p>Contraseña actualizada correctamente.</p>
+      <p class="redirect-text">Redirigiendo al login...</p>
+    </div>
+
+    <UForm
       v-else
-      class="text-center"
+      :schema="schema"
+      :state="state"
+      class="reset-form"
+      @submit="onSubmit"
     >
-      <UIcon
-        name="i-heroicons-check-circle"
-        class="w-12 h-12 mx-auto text-emerald-500"
-      />
-      <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-white">
-        Contraseña actualizada
-      </h3>
-      <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-        Tu contraseña se ha actualizado correctamente.
-      </p>
+      <UFormField label="Nueva Contraseña" name="password">
+        <UInput
+          v-model="state.password"
+          :type="showPassword ? 'text' : 'password'"
+          placeholder="••••••••"
+          icon="i-heroicons-lock-closed"
+          autocomplete="new-password"
+        >
+          <template #trailing>
+            <UButton
+              color="neutral"
+              variant="link"
+              :icon="showPassword ? 'i-heroicons-eye-slash' : 'i-heroicons-eye'"
+              :padded="false"
+              @click="showPassword = !showPassword"
+            />
+          </template>
+        </UInput>
+      </UFormField>
+
+      <UFormField label="Confirmar Contraseña" name="confirmPassword">
+        <UInput
+          v-model="state.confirmPassword"
+          :type="showConfirmPassword ? 'text' : 'password'"
+          placeholder="••••••••"
+          icon="i-heroicons-lock-closed"
+          autocomplete="new-password"
+        >
+          <template #trailing>
+            <UButton
+              color="neutral"
+              variant="link"
+              :icon="showConfirmPassword ? 'i-heroicons-eye-slash' : 'i-heroicons-eye'"
+              :padded="false"
+              @click="showConfirmPassword = !showConfirmPassword"
+            />
+          </template>
+        </UInput>
+      </UFormField>
+
       <UButton
-        to="/login"
+        type="submit"
         color="primary"
-        variant="soft"
-        class="mt-6"
+        size="lg"
+        block
+        :loading="loading"
       >
-        Volver al inicio
+        Restablecer Contraseña
       </UButton>
-    </div>
-  </UCard>
+    </UForm>
+  </div>
 </template>
+
+<style scoped>
+.reset-container {
+  width: 100%;
+  max-width: 400px;
+}
+
+.reset-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.reset-logo {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1rem;
+}
+
+.reset-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.reset-subtitle {
+  font-size: 0.875rem;
+  color: var(--ui-text-dimmed);
+}
+
+.reset-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.success-message {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.success-icon {
+  width: 3rem;
+  height: 3rem;
+  color: var(--ui-success);
+  margin-bottom: 1rem;
+}
+
+.redirect-text {
+  font-size: 0.875rem;
+  color: var(--ui-text-dimmed);
+  margin-top: 0.5rem;
+}
+</style>

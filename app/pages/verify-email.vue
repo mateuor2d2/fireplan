@@ -4,17 +4,18 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: 'Verificar Email - Prevenius',
-  description: 'Verifica tu dirección de email para activar tu cuenta de Prevenius.'
+  title: 'Verificar Email - FirePlan',
+  description: 'Verifica tu dirección de email para completar el registro en FirePlan.'
 })
 
 const route = useRoute()
 const router = useRouter()
+const toast = useToast()
 
+const token = route.query.token as string
 const status = ref<'loading' | 'success' | 'error'>('loading')
 
 onMounted(async () => {
-  const token = route.query.token as string
   if (!token) {
     status.value = 'error'
     return
@@ -26,53 +27,83 @@ onMounted(async () => {
       body: { token }
     })
     status.value = 'success'
-  } catch {
+    toast.add({
+      title: 'Email verificado',
+      description: 'Tu cuenta ha sido verificada correctamente.',
+      color: 'success'
+    })
+    setTimeout(() => router.push('/login'), 3000)
+  } catch (error: any) {
     status.value = 'error'
+    toast.add({
+      title: 'Error',
+      description: error.data?.message || 'No se pudo verificar el email',
+      color: 'error'
+    })
   }
 })
 </script>
 
 <template>
-  <div class="flex items-center justify-center min-h-screen">
-    <UCard class="w-full max-w-md">
-      <div class="text-center space-y-4">
-        <div v-if="status === 'loading'">
-          <UIcon name="i-lucide-loader-2" class="text-4xl text-primary animate-spin mb-4" />
-          <h2 class="text-xl font-semibold">Verificando tu email...</h2>
-        </div>
+  <div class="verify-container">
+    <LogoPro class="verify-logo" />
 
-        <div v-else-if="status === 'success'">
-          <UIcon name="i-lucide-check-circle" class="text-4xl text-green-500 mb-4" />
-          <h2 class="text-xl font-semibold">Email verificado</h2>
-          <p class="text-gray-600 dark:text-gray-400">
-            Tu cuenta ha sido activada correctamente. Ya puedes iniciar sesión.
-          </p>
-          <UButton
-            label="Iniciar sesión"
-            to="/login"
-            class="mt-4"
-          />
-        </div>
+    <div v-if="status === 'loading'" class="verify-status">
+      <UIcon name="i-heroicons-arrow-path" class="verify-icon animate-spin" />
+      <p>Verificando tu email...</p>
+    </div>
 
-        <div v-else>
-          <UIcon name="i-lucide-x-circle" class="text-4xl text-red-500 mb-4" />
-          <h2 class="text-xl font-semibold">Enlace inválido o expirado</h2>
-          <p class="text-gray-600 dark:text-gray-400">
-            El enlace de verificación no es válido o ha expirado. Puedes registrarte de nuevo o solicitar uno nuevo.
-          </p>
-          <div class="flex gap-3 justify-center mt-4">
-            <UButton
-              label="Registrarse"
-              to="/signup"
-              variant="outline"
-            />
-            <UButton
-              label="Iniciar sesión"
-              to="/login"
-            />
-          </div>
-        </div>
-      </div>
-    </UCard>
+    <div v-else-if="status === 'success'" class="verify-status">
+      <UIcon name="i-heroicons-check-circle" class="verify-icon success" />
+      <h1>¡Email verificado!</h1>
+      <p>Tu cuenta ha sido activada correctamente.</p>
+      <p class="redirect-text">Redirigiendo al login...</p>
+    </div>
+
+    <div v-else class="verify-status">
+      <UIcon name="i-heroicons-x-circle" class="verify-icon error" />
+      <h1>Error de verificación</h1>
+      <p>No se pudo verificar tu email. El enlace puede haber expirado.</p>
+      <UButton to="/login" color="primary">Volver al login</UButton>
+    </div>
   </div>
 </template>
+
+<style scoped>
+.verify-container {
+  text-align: center;
+  max-width: 400px;
+}
+
+.verify-logo {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 2rem;
+}
+
+.verify-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.verify-icon {
+  width: 3rem;
+  height: 3rem;
+  color: var(--ui-primary);
+}
+
+.verify-icon.success {
+  color: var(--ui-success);
+}
+
+.verify-icon.error {
+  color: var(--ui-error);
+}
+
+.redirect-text {
+  font-size: 0.875rem;
+  color: var(--ui-text-dimmed);
+}
+</style>

@@ -1,112 +1,42 @@
 <script setup lang="ts">
-const links = [
-  {
-    label: 'Resources',
-    children: [
-      {
-        label: 'Help center'
-      },
-      {
-        label: 'Docs'
-      },
-      {
-        label: 'Roadmap'
-      },
-      {
-        label: 'Changelog'
-      }
-    ]
-  },
-  {
-    label: 'Features',
-    children: [
-      {
-        label: 'Affiliates'
-      },
-      {
-        label: 'Portal'
-      },
-      {
-        label: 'Jobs'
-      },
-      {
-        label: 'Sponsors'
-      }
-    ]
-  },
-  {
-    label: 'Company',
-    children: [
-      {
-        label: 'About'
-      },
-      {
-        label: 'Pricing'
-      },
-      {
-        label: 'Careers'
-      },
-      {
-        label: 'Blog'
-      }
-    ]
-  }
-]
-
-const toast = useToast()
-
-const email = ref('')
-const loading = ref(false)
-
-function onSubmit() {
-  loading.value = true
-
-  setTimeout(() => {
-    toast.add({
-      title: 'Subscribed!',
-      description: 'You\'ve been subscribed to our newsletter.'
-    })
-
-    loading.value = false
-  }, 1000)
+const links = {
+  producto: [{
+    label: 'Sobre FirePlan',
+    to: '/about'
+  }, {
+    label: 'Precios',
+    to: '/pricing'
+  }, {
+    label: 'Contacto',
+    to: '/contact'
+  }],
+  legal: [{
+    label: 'Privacidad',
+    to: '/privacy'
+  }, {
+    label: 'Términos',
+    to: '/terms'
+  }]
 }
 </script>
 
 <template>
   <UFooter>
-    <!-- <template #top>
+    <template #top>
       <UFooterColumns :links="links">
-        <template #right>
-          <form @submit.prevent="onSubmit">
-            <UFormField label="Subscribe to our newsletter" :ui="{ container: 'mt-3' }">
-              <UInput v-model="email" type="email" placeholder="Enter your email" :ui="{ icon: { trailing: { pointer: '' } } }" required size="xl" autocomplete="off" class="max-w-sm" input-class="rounded-full">
-                <template #trailing>
-                  <UButton type="submit" size="xs" color="primary" :label="loading ? 'Subscribing' : 'Subscribe'" :loading="loading" />
-                </template>
-              </UInput>
-            </UFormField>
-          </form>
+        <template #left>
+          <LogoPro class="h-8 w-auto" />
+          <p class="text-sm text-gray-500 mt-2">
+            FirePlan — Plan de Emergencia y Autoprotección
+          </p>
         </template>
       </UFooterColumns>
-    </template> -->
-
-    <template #left>
-      <p class="text-gray-500 dark:text-gray-400 text-sm">
-        Copyright © {{ new Date().getFullYear() }} Prevenius. Todos los derechos reservados.
-      </p>
     </template>
 
-    <template #right>
-      <UColorModeButton size="sm" />
-
-      <UButton
-        to="https://prevenius.io"
-        target="_blank"
-        icon="i-simple-icons-github"
-        aria-label="GitHub"
-        color="neutral"
-        variant="ghost"
-      />
+    <template #bottom>
+      <p class="text-sm text-gray-500">
+        © {{ new Date().getFullYear() }} FirePlan. Todos los derechos reservados.
+      </p>
     </template>
   </UFooter>
 </template>

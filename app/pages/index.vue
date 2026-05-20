@@ -5,10 +5,10 @@ definePageMeta({
 
 useSeoMeta({
   titleTemplate: '',
-  title: 'Prevenius — Planes de Seguridad y Salud',
-  ogTitle: 'Prevenius — Planes de Seguridad y Salud',
-  description: 'La plataforma integral para crear, gestionar y generar planes de seguridad para proyectos de construcción. Cumple con el RD 1627/1997.',
-  ogDescription: 'La plataforma integral para crear, gestionar y generar planes de seguridad para proyectos de construcción.'
+  title: 'FirePlan — Plan de Emergencia y Autoprotección',
+  ogTitle: 'FirePlan — Plan de Emergencia y Autoprotección',
+  description: 'La plataforma integral para crear, gestionar y mantener planes de emergencia y autoprotección. Cumple con el RD 393/2007 y normativa vigente.',
+  ogDescription: 'La plataforma integral para crear, gestionar y mantener planes de emergencia y autoprotección.'
 })
 </script>
 
@@ -24,11 +24,32 @@ useSeoMeta({
           <LogoPro class="logo-anim" />
         </div>
         <p class="tagline tagline-anim">
-          Planes de Seguridad y Salud, Fáciles y Reales
+          Plan de Emergencia y Autoprotección, Siempre Actualizado
         </p>
         <p class="subtitle subtitle-anim">
-          Pensado por Ingenieros y Arquitectos para resolver el plan de seguridad fácilmente.
+          Gestiona la seguridad de tu centro de trabajo con fichaje inteligente, equipos QR y simulacros.
         </p>
+        <div class="hero-cta">
+          <UButton
+            to="/login"
+            color="primary"
+            size="xl"
+            icon="i-heroicons-arrow-right"
+            trailing
+            class="cta-button"
+          >
+            Acceder a FirePlan
+          </UButton>
+          <UButton
+            to="/register"
+            color="neutral"
+            variant="ghost"
+            size="xl"
+            class="cta-button"
+          >
+            Crear cuenta
+          </UButton>
+        </div>
       </div>
 
       <div class="scroll-indicator">
@@ -41,140 +62,121 @@ useSeoMeta({
       <UContainer>
         <div class="values-header">
           <h2 class="values-title">
-            Todo lo que necesitas para tus Planes de Seguridad
+            Todo lo que necesitas para tu Plan de Emergencia
           </h2>
           <p class="values-desc">
-            De la normativa a la obra, Prevenius te acompaña en cada paso.
+            Desde el análisis de riesgos hasta los simulacros, FirePlan te acompaña en cada paso.
           </p>
         </div>
 
         <div class="values-grid">
-          <div class="value-card value-card-1">
-            <div class="value-icon-wrap">
-              <UIcon name="i-lucide-zap" class="value-icon" />
-            </div>
-            <h3 class="value-heading">Crea Planes Rápidamente</h3>
-            <p class="value-text">
-              Diseña planes de seguridad completos en horas, no en días. Plantillas inteligentes y flujos optimizados.
+          <UCard class="value-card value-card-1">
+            <template #header>
+              <UIcon name="i-heroicons-document-text" class="value-icon" />
+              <h3>Plan de Emergencia Digital</h3>
+            </template>
+            <p>
+              Crea y mantén tu plan de emergencia conforme al RD 393/2007. Capítulos 1-9 completos con anexos.
             </p>
-          </div>
+          </UCard>
 
-          <div class="value-card value-card-2">
-            <div class="value-icon-wrap">
-              <UIcon name="i-lucide-shield-check" class="value-icon" />
-            </div>
-            <h3 class="value-heading">Cumple con el RD 1627/1997</h3>
-            <p class="value-text">
-              Generación automática de documentación conforme a la normativa vigente de seguridad en construcción.
+          <UCard class="value-card value-card-2">
+            <template #header>
+              <UIcon name="i-heroicons-qr-code" class="value-icon" />
+              <h3>Equipos con QR</h3>
+            </template>
+            <p>
+              Gestiona extintores, bocas de incendio y equipos de emergencia con códigos QR para revisión rápida.
             </p>
-          </div>
+          </UCard>
 
-          <div class="value-card value-card-3">
-            <div class="value-icon-wrap">
-              <UIcon name="i-lucide-smartphone" class="value-icon" />
-            </div>
-            <h3 class="value-heading">Accede desde Cualquier Dispositivo</h3>
-            <p class="value-text">
-              Gestiona tus planes desde la oficina o desde la obra. Códigos QR para acceso instantáneo in situ.
+          <UCard class="value-card value-card-3">
+            <template #header>
+              <UIcon name="i-heroicons-users" class="value-icon" />
+              <h3>Fichaje Inteligente</h3>
+            </template>
+            <p>
+              Al fichar, cada trabajador recibe por Telegram su rol en el plan de emergencia: evacuación, extinción o primeros auxilios.
             </p>
-          </div>
+          </UCard>
+
+          <UCard class="value-card value-card-4">
+            <template #header>
+              <UIcon name="i-heroicons-clipboard-document-check" class="value-icon" />
+              <h3>Simulacros y Evaluación</h3>
+            </template>
+            <p>
+              Programa simulacros de evacuación, registra participantes y genera informes de evaluación con acciones correctivas.
+            </p>
+          </UCard>
+
+          <UCard class="value-card value-card-5">
+            <template #header>
+              <UIcon name="i-heroicons-map" class="value-icon" />
+              <h3>Mapas de Emergencia</h3>
+            </template>
+            <p>
+              Visualiza rutas de evacuación, puntos de encuentro y rutas para servicios de emergencia con OpenStreetMap.
+            </p>
+          </UCard>
+
+          <UCard class="value-card value-card-6">
+            <template #header>
+              <UIcon name="i-heroicons-shield-check" class="value-icon" />
+              <h3>Cumplimiento Normativo</h3>
+            </template>
+            <p>
+              Mantén tu plan siempre actualizado y en cumplimiento de la normativa de prevención de riesgos laborales.
+            </p>
+          </UCard>
         </div>
       </UContainer>
     </section>
 
-    <!-- Section 3: CTA -->
-    <section class="cta-section">
-      <div class="cta-glow" />
+    <!-- Section 3: Social Proof -->
+    <section class="social-section">
       <UContainer>
-        <div class="cta-content">
-          <h2 class="cta-title">Comienza Ahora</h2>
-          <p class="cta-desc">
-            Únete a más de 1.000 empresas constructoras que ya gestionan su seguridad con Prevenius.
+        <div class="social-content">
+          <h2 class="social-title">
+            Protege a tu equipo con FirePlan
+          </h2>
+          <p class="social-desc">
+            Únete a empresas que ya gestionan su plan de emergencia y autoprotección con FirePlan.
           </p>
-          <div class="cta-buttons">
+          <div class="social-cta">
             <UButton
-              label="Registrarse Gratis"
+              to="/register"
+              color="primary"
               size="xl"
-              to="/signup"
-              class="cta-btn-primary"
-            />
-            <UButton
-              label="Ver Plataforma"
-              size="xl"
-              color="neutral"
-              variant="outline"
-              to="/home"
-              class="cta-btn-secondary"
-            />
+              icon="i-heroicons-arrow-right"
+              trailing
+            >
+              Empieza Gratis
+            </UButton>
           </div>
         </div>
       </UContainer>
     </section>
 
-    <!-- Section 4: Full landing link -->
-    <section class="landing-link-section">
-      <UContainer>
-        <div class="landing-link-content">
-          <p class="landing-link-text">
-            Explora todas las funcionalidades de Prevenius
-          </p>
-          <UButton
-            label="Descubre Prevenius"
-            trailing-icon="i-lucide-arrow-right"
-            size="lg"
-            to="/home"
-            variant="ghost"
-          />
-        </div>
-      </UContainer>
-    </section>
+    <!-- Footer -->
+    <Footer />
   </div>
 </template>
 
 <style scoped>
-/* ============================================
-   WELCOME PAGE — Scroll-driven animations
-   ============================================ */
-
 .welcome-page {
-  background: var(--ui-bg);
   min-height: 100vh;
-  overflow-x: hidden;
+  background: var(--ui-bg);
 }
 
-/* --- Section 1: Hero --- */
 .hero-section {
   position: relative;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  padding: 2rem 1rem;
   overflow: hidden;
-  background: #020617;
-}
-
-.dark .hero-section {
-  background: #020617;
-}
-
-:root:not(.dark) .hero-section {
-  background: linear-gradient(180deg, #0f172a 0%, #1e1b4b 100%);
-}
-
-.hero-glow {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 600px;
-  height: 600px;
-  border-radius: 50%;
-  background: var(--ui-primary);
-  opacity: 0.08;
-  filter: blur(120px);
-  pointer-events: none;
 }
 
 .stars-bg {
@@ -183,120 +185,102 @@ useSeoMeta({
   z-index: 0;
 }
 
+.hero-glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 1;
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+}
+
 .hero-content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
+  max-width: 800px;
+  padding: 2rem;
 }
 
 .logo-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
-.logo-wrapper :deep(svg) {
-  width: auto;
-  height: 3rem;
-}
-
-@media (min-width: 640px) {
-  .logo-wrapper :deep(svg) {
-    height: 4rem;
-  }
-}
-
-/* Logo entrance animation */
 .logo-anim {
-  animation: logoEnter 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@keyframes logoEnter {
-  from {
-    opacity: 0;
-    transform: scale(0.8) translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+  width: 120px;
+  height: 120px;
+  animation: fade-in-up 0.8s ease-out;
 }
 
 .tagline {
-  font-size: 1.25rem;
-  font-weight: 300;
-  color: rgba(255, 255, 255, 0.85);
-  max-width: 36rem;
-  line-height: 1.6;
-}
-
-@media (min-width: 640px) {
-  .tagline {
-    font-size: 1.5rem;
-  }
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--ui-primary) 0%, var(--ui-text) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1rem;
 }
 
 .tagline-anim {
-  animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+  animation: fade-in-up 0.8s ease-out 0.2s both;
 }
 
 .subtitle {
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.5);
-  max-width: 28rem;
-  line-height: 1.6;
+  font-size: 1.25rem;
+  color: var(--ui-text-dimmed);
+  margin-bottom: 2rem;
 }
 
 .subtitle-anim {
-  animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both;
+  animation: fade-in-up 0.8s ease-out 0.4s both;
 }
 
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  animation: fade-in-up 0.8s ease-out 0.6s both;
 }
 
-/* Scroll indicator */
 .scroll-indicator {
   position: absolute;
   bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1;
-  color: rgba(255, 255, 255, 0.4);
+  z-index: 2;
+  animation: bounce 2s infinite;
 }
 
 .scroll-icon {
   width: 2rem;
   height: 2rem;
-  animation: bounceDown 2s ease-in-out infinite;
+  color: var(--ui-text-dimmed);
 }
 
-@keyframes bounceDown {
-  0%, 100% {
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10px); }
+  60% { transform: translateY(-5px); }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
     transform: translateY(0);
-    opacity: 0.4;
-  }
-  50% {
-    transform: translateY(12px);
-    opacity: 0.8;
   }
 }
 
-/* --- Section 2: Value Propositions --- */
 .values-section {
   padding: 6rem 0;
-  background: var(--ui-bg);
 }
 
 .values-header {
@@ -305,181 +289,62 @@ useSeoMeta({
 }
 
 .values-title {
-  font-size: 1.875rem;
+  font-size: 2rem;
   font-weight: 700;
-  color: var(--ui-text);
   margin-bottom: 1rem;
-  line-height: 1.2;
-}
-
-@media (min-width: 640px) {
-  .values-title {
-    font-size: 2.25rem;
-  }
 }
 
 .values-desc {
-  font-size: 1.1rem;
-  color: var(--ui-text-muted);
-  max-width: 32rem;
-  margin: 0 auto;
+  font-size: 1.125rem;
+  color: var(--ui-text-dimmed);
 }
 
 .values-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
 }
 
-@media (min-width: 768px) {
-  .values-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Scroll-driven card reveal animation */
 .value-card {
-  padding: 2rem;
-  border-radius: 1rem;
-  border: 1px solid var(--ui-border);
-  background: var(--ui-bg-elevated);
-  animation: cardReveal linear both;
-  animation-timeline: view();
-  animation-range: entry 0% entry 30%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-@keyframes cardReveal {
-  from {
-    opacity: 0;
-    transform: translateY(60px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.value-card-2 {
-  animation-delay: 0.1s;
-}
-
-.value-card-3 {
-  animation-delay: 0.2s;
-}
-
-.value-icon-wrap {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 0.75rem;
-  background: color-mix(in srgb, var(--ui-primary) 12%, transparent);
-  margin-bottom: 1.25rem;
+.value-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.15);
 }
 
 .value-icon {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
   color: var(--ui-primary);
-}
-
-.value-heading {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: var(--ui-text);
-  margin-bottom: 0.75rem;
-}
-
-.value-text {
-  font-size: 0.9rem;
-  color: var(--ui-text-muted);
-  line-height: 1.6;
-}
-
-/* --- Section 3: CTA --- */
-.cta-section {
-  position: relative;
-  padding: 6rem 0;
-  background: var(--ui-bg);
-  overflow: hidden;
-}
-
-.cta-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 500px;
-  height: 300px;
-  border-radius: 50%;
-  background: var(--ui-primary);
-  opacity: 0.06;
-  filter: blur(100px);
-  pointer-events: none;
-}
-
-.cta-content {
-  text-align: center;
-  position: relative;
-  z-index: 1;
-}
-
-.cta-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--ui-text);
   margin-bottom: 1rem;
-  animation: fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-timeline: view();
-  animation-range: entry 0% entry 20%;
 }
 
-.cta-desc {
-  font-size: 1.1rem;
-  color: var(--ui-text-muted);
-  max-width: 28rem;
-  margin: 0 auto 2.5rem;
+.social-section {
+  padding: 6rem 0;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, transparent 100%);
 }
 
-.cta-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
+.social-content {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-/* --- Section 4: Landing Link --- */
-.landing-link-section {
-  padding: 3rem 0 4rem;
-  border-top: 1px solid var(--ui-border);
-  background: var(--ui-bg-muted);
+.social-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
 }
 
-.landing-link-content {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
+.social-desc {
+  font-size: 1.125rem;
+  color: var(--ui-text-dimmed);
+  margin-bottom: 2rem;
 }
 
-.landing-link-text {
-  font-size: 1.1rem;
-  color: var(--ui-text-muted);
-}
-
-/* --- Reduced motion --- */
-@media (prefers-reduced-motion: reduce) {
-  .logo-anim,
-  .tagline-anim,
-  .subtitle-anim,
-  .scroll-icon,
-  .value-card,
-  .cta-title {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
+.social-cta {
+  animation: fade-in-up 0.8s ease-out both;
 }
 </style>

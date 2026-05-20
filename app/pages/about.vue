@@ -1,107 +1,71 @@
 <script setup lang="ts">
-useSeoMeta({
-  title: 'Para Quién - Prevenius',
-  description: 'Diseñado para cada profesional de la construcción: coordinadores de seguridad, directores de obra, gerentes de constructora y técnicos de prevención.'
+definePageMeta({
+  layout: 'default'
 })
 
-const sectors = [
-  { title: 'Edificación Residencial', description: 'Viviendas unifamiliares, bloques de pisos y urbanizaciones.', icon: 'i-lucide-home' },
-  { title: 'Obra Civil', description: 'Infraestructuras, carreteras, puentes y obras públicas.', icon: 'i-lucide-route' },
-  { title: 'Reformas y Rehabilitación', description: 'Renovación de edificios existentes y reformas integrales.', icon: 'i-lucide-hammer' },
-  { title: 'Energía Renovable', description: 'Instalaciones solares, eólicas y de energía limpia.', icon: 'i-lucide-zap' },
-  { title: 'Demolición', description: 'Derribo controlado de estructuras y edificios.', icon: 'i-lucide-building' },
-  { title: 'Instalaciones', description: 'Electricidad, fontanería, HVAC y climatización.', icon: 'i-lucide-wrench' }
-]
+useSeoMeta({
+  title: 'Sobre FirePlan',
+  description: 'Conoce FirePlan, la plataforma de gestión de planes de emergencia y autoprotección.'
+})
 </script>
 
 <template>
-  <div>
-    <UPageHero
-      title="Diseñado para Cada Profesional de la Construcción"
-      description="Sea cual sea tu rol, Prevenius se adapta a tu forma de trabajar. Desde autónomos hasta grandes constructoras."
-    >
-      <template #top>
-        <div class="absolute rounded-full dark:bg-primary blur-[300px] size-60 sm:size-80 transform -translate-x-1/2 left-1/2 -translate-y-80" />
+  <div class="p-6 max-w-3xl mx-auto">
+    <div class="text-center mb-10">
+      <LogoPro class="w-24 h-24 mx-auto mb-4" />
+      <h1 class="text-3xl font-bold mb-2">Sobre FirePlan</h1>
+      <p class="text-gray-500">Plan de Emergencia y Autoprotección</p>
+    </div>
+
+    <UCard class="mb-6">
+      <template #header>
+        <h2 class="text-xl font-semibold">Nuestra Misión</h2>
       </template>
-    </UPageHero>
+      <p>
+        FirePlan nace con el objetivo de simplificar la gestión de planes de emergencia y autoprotección 
+        en centros de trabajo. Queremos que cada empresa, independientemente de su tamaño, 
+        pueda cumplir con la normativa de prevención de riesgos laborales de forma sencilla y eficiente.
+      </p>
+    </UCard>
 
-    <UPageSection
-      title="Perfiles de Usuario"
-      description="Prevenius está diseñado pensando en cada profesional involucrado en la seguridad de la construcción."
-    >
-      <UPageGrid>
-        <UPageCard
-          title="Coordinador de Seguridad y Salud"
-          description="Creas planes para múltiples obras y clientes. Necesitas eficiencia, cumplimiento y presentación profesional."
-          icon="i-lucide-shield-check"
-          spotlight
-        />
-        <UPageCard
-          title="Director de Obra"
-          description="Gestionas varias obras simultáneamente. Necesitas visibilidad del estado de cada plan y presupuesto con dashboard centralizado."
-          icon="i-lucide-building-2"
-          spotlight
-        />
-        <UPageCard
-          title="Gerente de Constructora"
-          description="Responsable del cumplimiento de toda la empresa. Multi-usuario, reportes, control de acceso y API para integración."
-          icon="i-lucide-briefcase"
-          spotlight
-        />
-        <UPageCard
-          title="Técnico de Prevención"
-          description="Estás a pie de obra y necesitas acceso rápido. Reporta incidencias y verifica cumplimiento desde tu móvil con QR."
-          icon="i-lucide-hard-hat"
-          spotlight
-        />
-        <UPageCard
-          title="Autónomo / Pequeño Contratista"
-          description="Haces pocas obras al año pero necesitas cumplir. Plan Básico con todo lo esencial desde 29,90€/mes."
-          icon="i-lucide-user"
-          spotlight
-        />
-        <UPageCard
-          title="Promotor Inmobiliario"
-          description="Delegas la seguridad pero necesitas visibilidad. Accede a todos tus planes y verifica el cumplimiento normativo."
-          icon="i-lucide-landmark"
-          spotlight
-        />
-      </UPageGrid>
-    </UPageSection>
+    <UCard class="mb-6">
+      <template #header>
+        <h2 class="text-xl font-semibold">¿Qué ofrecemos?</h2>
+      </template>
+      <ul class="space-y-3">
+        <li class="flex items-start gap-3">
+          <UIcon name="i-heroicons-document-text" class="w-6 h-6 text-primary mt-0.5" />
+          <div>
+            <strong>Plan de Emergencia Digital</strong>
+            <p class="text-sm text-gray-500">Crea y mantén tu plan conforme al RD 393/2007 con todos los capítulos y anexos.</p>
+          </div>
+        </li>
+        <li class="flex items-start gap-3">
+          <UIcon name="i-heroicons-qr-code" class="w-6 h-6 text-primary mt-0.5" />
+          <div>
+            <strong>Gestión de Equipos QR</strong>
+            <p class="text-sm text-gray-500">Controla extintores, detectores y equipos de emergencia con códigos QR.</p>
+          </div>
+        </li>
+        <li class="flex items-start gap-3">
+          <UIcon name="i-heroicons-users" class="w-6 h-6 text-primary mt-0.5" />
+          <div>
+            <strong>Fichaje Inteligente</strong>
+            <p class="text-sm text-gray-500">Informa a cada trabajador de su rol en emergencias al fichar.</p>
+          </div>
+        </li>
+        <li class="flex items-start gap-3">
+          <UIcon name="i-heroicons-clipboard-document-check" class="w-6 h-6 text-primary mt-0.5" />
+          <div>
+            <strong>Simulacros</strong>
+            <p class="text-sm text-gray-500">Programa, ejecuta y evalúa simulacros de evacuación con informes completos.</p>
+          </div>
+        </li>
+      </ul>
+    </UCard>
 
-    <USeparator />
-
-    <UPageSection
-      title="Sectores que Cubrimos"
-      description="Prevenius se adapta a cualquier tipo de obra de construcción."
-    >
-      <UPageGrid>
-        <UPageCard
-          v-for="sector in sectors"
-          :key="sector.title"
-          v-bind="sector"
-          spotlight
-        />
-      </UPageGrid>
-    </UPageSection>
-
-    <USeparator />
-
-    <UPageCTA
-      title="¿Listo para empezar?"
-      description="Únete a miles de profesionales que ya confían en Prevenius para sus planes de seguridad."
-      :links="[{
-        label: 'Comenzar Prueba Gratis',
-        icon: 'i-lucide-user-plus',
-        to: '/signup'
-      }, {
-        label: 'Ver Precios',
-        icon: 'i-lucide-credit-card',
-        variant: 'subtle',
-        to: '/pricing'
-      }]"
-      variant="naked"
-      class="overflow-hidden"
-    />
+    <div class="text-center">
+      <UButton to="/register" color="primary" size="lg">Empezar con FirePlan</UButton>
+    </div>
   </div>
 </template>

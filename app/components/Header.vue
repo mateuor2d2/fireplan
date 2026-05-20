@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// Type for navigation items - using ContentNavigationItem from Nuxt Content
 interface NavItem {
   _path: string
   title: string
@@ -8,7 +7,6 @@ interface NavItem {
 
 const navigation = inject<Ref<NavItem[]>>('navigation', ref([]))
 
-// Simple mapper for navigation items
 const mapContentNavigation = (nav: NavItem[]): any[] => {
   return nav.map(item => ({
     label: item.title,
@@ -18,35 +16,35 @@ const mapContentNavigation = (nav: NavItem[]): any[] => {
 }
 
 const links = [{
-  label: 'Docs',
-  to: '/docs'
+  label: 'Sobre FirePlan',
+  to: '/about'
 }, {
-  label: 'Pricing',
+  label: 'Precios',
   to: '/pricing'
 }, {
-  label: 'Blog',
-  to: '/blog'
+  label: 'Contacto',
+  to: '/contact'
 }]
 </script>
 
 <template>
   <UHeader :links="links">
     <template #logo>
-      Prevenius
+      FirePlan
     </template>
 
     <template #right>
       <UButton
-        label="Sign in"
+        label="Iniciar sesión"
         color="neutral"
         to="/login"
       />
       <UButton
-        label="Sign up"
+        label="Registrarse"
         icon="i-heroicons-arrow-right-20-solid"
         trailing
         color="primary"
-        to="/signup"
+        to="/register"
         class="hidden lg:flex"
       />
     </template>

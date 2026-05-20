@@ -1,157 +1,158 @@
 <script setup lang="ts">
-const userStore = useUserStore()
-const toast = useToast()
-const router = useRouter()
+import * as z from 'zod'
+import type { FormSubmitEvent } from '@nuxt/ui'
 
 definePageMeta({
   layout: 'auth'
 })
 
 useSeoMeta({
-  title: 'Restablecer Contraseña - Prevenius',
-  description: 'Recupera el acceso a tu cuenta de Prevenius. Te enviaremos un enlace para restablecer tu contraseña.'
+  title: 'Restablecer Contraseña - FirePlan',
+  description: 'Recupera el acceso a tu cuenta de FirePlan. Te enviaremos un enlace para restablecer tu contraseña.'
 })
 
-// Component state
-const email = ref('')
-const isLoading = ref(false)
-const isSubmitted = ref(false)
-const error = ref('')
+const toast = useToast()
+const sent = ref(false)
+const loading = ref(false)
 
-// Email validation regex
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
-// Validate email format
-const isEmailValid = computed(() => {
-  return emailRegex.test(email.value)
+const schema = z.object({
+  email: z.string().email('Email inválido')
 })
 
-// Form submission handler
-async function handleSubmit() {
-  // Validate email is not empty
-  if (!email.value || !isEmailValid.value) {
-    toast.add({
-      title: 'Error de validación',
-      description: 'Por favor, introduce un correo electrónico válido',
-      color: 'error',
-      icon: 'i-heroicons-exclamation-triangle'
-    })
-    return
-  }
+type Schema = z.output<typeof schema>
 
-  isLoading.value = true
-  error.value = ''
+const state = reactive<Partial<Schema>>({
+  email: undefined
+})
 
+async function onSubmit(event: FormSubmitEvent<Schema>) {
+  loading.value = true
   try {
-    // Call userStore.forgotPassword(email)
-    await userStore.forgotPassword(email.value)
-
-    // Set success state
-    isSubmitted.value = true
-  } catch (err: any) {
-    console.error('Error sending forgot password email:', err)
-    const errorMessage = err.message || 'Error al enviar correo'
-    error.value = errorMessage
-
+    await $fetch('/api/auth/forgot-password', {
+      method: 'POST',
+      body: { email: event.data.email }
+    })
+    sent.value = true
+    toast.add({
+      title: 'Email enviado',
+      description: 'Revisa tu correo para restablecer tu contraseña.',
+      color: 'success'
+    })
+  } catch (error: any) {
     toast.add({
       title: 'Error',
-      description: errorMessage,
-      color: 'error',
-      icon: 'i-heroicons-exclamation-triangle'
+      description: error.data?.message || 'No se pudo enviar el email',
+      color: 'error'
     })
   } finally {
-    isLoading.value = false
+    loading.value = false
   }
 }
 </script>
 
 <template>
-  <UCard class="max-w-sm w-full bg-white/75 dark:bg-white/5 backdrop-blur">
-    <!-- Initial State: Email Form -->
-    <template
-      v-if="!isSubmitted"
-      #header
-    >
-      <div class="text-center">
-        <UIcon
-          name="i-heroicons-envelope-key"
-          class="w-8 h-8 mx-auto text-primary-500"
-        />
-        <h1 class="mt-4 text-2xl font-bold text-gray-900 dark:text-white">
-          Restablecer Contraseña
-        </h1>
-        <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-          Introduce tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña
-        </p>
-      </div>
-    </template>
+  <div class="forgot-container">
+    <div class="forgot-header">
+      <LogoPro class="forgot-logo" />
+      <h1 class="forgot-title">¿Olvidaste tu contraseña?</h1>
+      <p class="forgot-subtitle">Te enviaremos un enlace para restablecerla</p>
+    </div>
 
-    <!-- Email Form -->
+    <div v-if="sent" class="sent-message">
+      <UIcon name="i-heroicons-check-circle" class="sent-icon" />
+      <p>Hemos enviado un enlace a tu email.</p>
+      <UButton to="/login" color="primary" block>Volver al login</UButton>
+    </div>
+
     <UForm
-      v-if="!isSubmitted"
-      :state="{ email }"
-      class="space-y-4"
-      @submit="handleSubmit"
+      v-else
+      :schema="schema"
+      :state="state"
+      class="forgot-form"
+      @submit="onSubmit"
     >
-      <UFormField
-        label="Correo electrónico"
-        name="email"
-      >
+      <UFormField label="Email" name="email">
         <UInput
-          v-model="email"
+          v-model="state.email"
           type="email"
-          placeholder="tu@email.com"
-          :disabled="isLoading"
+          placeholder="tu@empresa.com"
           icon="i-heroicons-envelope"
-          required
+          autocomplete="email"
         />
       </UFormField>
 
       <UButton
         type="submit"
         color="primary"
+        size="lg"
         block
-        :loading="isLoading"
-        :disabled="isLoading"
-        class="mt-6"
+        :loading="loading"
       >
-        Enviar enlace de restablecimiento
+        Enviar Enlace
       </UButton>
 
-      <div
-        v-if="error"
-        class="mt-4 text-sm text-red-500 dark:text-red-400 text-center"
-      >
-        {{ error }}
+      <div class="forgot-links">
+        <UButton
+          to="/login"
+          variant="link"
+          color="neutral"
+          size="sm"
+        >
+          Volver al login
+        </UButton>
       </div>
     </UForm>
-
-    <!-- Success State -->
-    <div
-      v-else
-      class="text-center"
-    >
-      <UIcon
-        name="i-heroicons-check-circle"
-        class="w-12 h-12 mx-auto text-emerald-500"
-      />
-      <h3 class="mt-4 text-lg font-medium text-gray-900 dark:text-white">
-        Correo enviado
-      </h3>
-      <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
-        Hemos enviado un enlace a tu correo electrónico. Sigue las instrucciones para restablecer tu contraseña.
-      </p>
-      <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
-        Si no recibes el correo en unos minutos, verifica tu carpeta de spam.
-      </p>
-      <UButton
-        to="/login"
-        color="primary"
-        variant="soft"
-        class="mt-6"
-      >
-        Volver al inicio
-      </UButton>
-    </div>
-  </UCard>
+  </div>
 </template>
+
+<style scoped>
+.forgot-container {
+  width: 100%;
+  max-width: 400px;
+}
+
+.forgot-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.forgot-logo {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1rem;
+}
+
+.forgot-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.forgot-subtitle {
+  font-size: 0.875rem;
+  color: var(--ui-text-dimmed);
+}
+
+.forgot-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sent-message {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.sent-icon {
+  width: 3rem;
+  height: 3rem;
+  color: var(--ui-success);
+  margin-bottom: 1rem;
+}
+
+.forgot-links {
+  text-align: center;
+  margin-top: 1rem;
+}
+</style>

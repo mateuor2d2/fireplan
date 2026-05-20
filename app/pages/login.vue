@@ -8,8 +8,8 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: 'Iniciar Sesión - Prevenius',
-  description: 'Accede a tu cuenta de Prevenius para gestionar tus planes de seguridad en construcción.'
+  title: 'Iniciar Sesión - FirePlan',
+  description: 'Accede a tu cuenta de FirePlan para gestionar tu plan de emergencia y autoprotección.'
 })
 
 const toast = useToast()
@@ -17,7 +17,6 @@ const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
 
-// Check for OAuth errors and verification pending
 onMounted(() => {
   const error = route.query.error
   if (error) {
@@ -27,71 +26,35 @@ onMounted(() => {
       color: 'error'
     })
   }
-
-  if (route.query.verified === 'pending') {
-    toast.add({
-      title: 'Verifica tu email',
-      description: 'Te hemos enviado un email de verificación. Revisa tu bandeja de entrada para activar tu cuenta.',
-      color: 'info',
-      duration: 10000
-    })
-  }
 })
 
-const fields = [{
-  name: 'email',
-  type: 'text' as const,
-  label: 'Email',
-  placeholder: 'Tu email',
-  required: true
-}, {
-  name: 'password',
-  label: 'Contraseña',
-  type: 'password' as const,
-  placeholder: 'Tu contraseña'
-}, {
-  name: 'remember',
-  label: 'Recordarme',
-  type: 'checkbox' as const
-}]
-
-const providers = [{
-  label: 'Google',
-  icon: 'i-simple-icons-google',
-  onClick: async () => {
-    await navigateTo('/api/auth/google', { external: true })
-  }
-}, {
-  label: 'GitHub',
-  icon: 'i-simple-icons-github',
-  onClick: async () => {
-    await navigateTo('/api/auth/github', { external: true })
-  }
-}]
-
 const schema = z.object({
-  email: z.string().email('Invalid email'),
-  password: z.string().min(8, 'Must be at least 8 characters')
+  email: z.string().email('Email inválido'),
+  password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres')
 })
 
 type Schema = z.output<typeof schema>
 
-async function onSubmit(payload: FormSubmitEvent<Schema>) {
-  try {
-    await userStore.login(payload.data.email, payload.data.password)
+const state = reactive<Partial<Schema>>({
+  email: undefined,
+  password: undefined
+})
 
+const showPassword = ref(false)
+
+async function onSubmit(event: FormSubmitEvent<Schema>) {
+  try {
+    await userStore.login(event.data.email, event.data.password)
     toast.add({
-      title: 'Sesión iniciada',
+      title: '¡Bienvenido!',
       description: 'Has iniciado sesión correctamente.',
       color: 'success'
     })
-
-    // Redirect to dashboard or home page
-    await router.push('/protected/logged')
+    await router.push('/protected')
   } catch (error: any) {
     toast.add({
-      title: 'Error',
-      description: error.message || 'Login failed',
+      title: 'Error al iniciar sesión',
+      description: error.message || 'Credenciales inválidas',
       color: 'error'
     })
   }
@@ -99,38 +62,136 @@ async function onSubmit(payload: FormSubmitEvent<Schema>) {
 </script>
 
 <template>
-  <UAuthForm
-    :fields="fields"
-    :schema="schema"
-    :providers="providers"
-    title="Bienvenido de nuevo"
-    icon="i-lucide-lock"
-    @submit="onSubmit"
-  >
-    <template #description>
-      ¿No tienes cuenta? <ULink
-        to="/signup"
-        class="text-primary font-medium"
-      >Regístrate gratis</ULink>.
-    </template>
+  <div class="login-container">
+    <div class="login-header">
+      <LogoPro class="login-logo" />
+      <h1 class="login-title">FirePlan</h1>
+      <p class="login-subtitle">Plan de Emergencia y Autoprotección</p>
+    </div>
 
-    <template #password-hint>
-      <span class="text-sm text-gray-600 dark:text-gray-400">
-        ¿Olvidaste tu contraseña?
-      </span>
-      <ULink
-        to="/forgot-password"
-        class="text-primary font-medium"
-      >
-        Restablecer contraseña
-      </ULink>
-    </template>
+    <UForm
+      :schema="schema"
+      :state="state"
+      class="login-form"
+      @submit="onSubmit"
+    >
+      <UFormField label="Email" name="email">
+        <UInput
+          v-model="state.email"
+          type="email"
+          placeholder="tu@empresa.com"
+          icon="i-heroicons-envelope"
+          autocomplete="email"
+        />
+      </UFormField>
 
-    <template #footer>
-      Al iniciar sesión, aceptas nuestros <ULink
-        to="/"
-        class="text-primary font-medium"
-      >Términos de Servicio</ULink>.
-    </template>
-  </UAuthForm>
+      <UFormField label="Contraseña" name="password">
+        <UInput
+          v-model="state.password"
+          :type="showPassword ? 'text' : 'password'"
+          placeholder="••••••••"
+          icon="i-heroicons-lock-closed"
+          :ui="{ trailing: 'pr-0' }"
+          autocomplete="current-password"
+        >
+          <template #trailing>
+            <UButton
+              color="neutral"
+              variant="link"
+              :icon="showPassword ? 'i-heroicons-eye-slash' : 'i-heroicons-eye'"
+              :padded="false"
+              @click="showPassword = !showPassword"
+            />
+          </template>
+        </UInput>
+      </UFormField>
+
+      <div class="login-actions">
+        <UButton
+          type="submit"
+          color="primary"
+          size="lg"
+          block
+          :loading="userStore.loading"
+        >
+          Iniciar Sesión
+        </UButton>
+      </div>
+
+      <div class="login-links">
+        <UButton
+          to="/forgot-password"
+          variant="link"
+          color="neutral"
+          size="sm"
+        >
+          ¿Olvidaste tu contraseña?
+        </UButton>
+
+        <p class="register-prompt">
+          ¿No tienes cuenta?
+          <UButton
+            to="/register"
+            variant="link"
+            color="primary"
+            size="sm"
+          >
+            Regístrate
+          </UButton>
+        </p>
+      </div>
+    </UForm>
+  </div>
 </template>
+
+<style scoped>
+.login-container {
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-logo {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1rem;
+}
+
+.login-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.login-subtitle {
+  font-size: 0.875rem;
+  color: var(--ui-text-dimmed);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.login-actions {
+  margin-top: 0.5rem;
+}
+
+.login-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.register-prompt {
+  font-size: 0.875rem;
+  color: var(--ui-text-dimmed);
+}
+</style>

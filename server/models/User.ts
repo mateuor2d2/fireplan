@@ -142,6 +142,5 @@ UserSchema.methods.comparePassword = async function (candidatePassword: string):
 
 UserSchema.index({ 'qrSettings.autoGenerate': 1 })
 UserSchema.index({ tenantId: 1, role: 1 })
-UserSchema.index({ email: 1 })
 
 export const User: Model<IUser> = model<IUser>('User', UserSchema)

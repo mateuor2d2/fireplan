@@ -50,7 +50,6 @@ const EquipoSchema = new mongoose.Schema<IEquipoContraIncendios>({
 
 EquipoSchema.index({ centerId: 1, estado: 1 })
 EquipoSchema.index({ tenantId: 1, tipo: 1 })
-EquipoSchema.index({ codigoQR: 1 })
 EquipoSchema.index({ proximaRevision: 1 })
 
 export const EquipoContraIncendios = mongoose.model('EquipoContraIncendios', EquipoSchema)

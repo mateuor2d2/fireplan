@@ -41,10 +41,42 @@ export default defineNuxtConfig({
   },
 
   future: { compatibilityVersion: 4 },
+  experimental: { viteEnvironmentApi: true },
   compatibilityDate: '2024-11-25',
 
   nitro: {
     preset: 'vercel',
     experimental: { wasm: true }
-  }
+  },
+
+  vite: {
+    build: {
+      sourcemap: false,
+      minify: 'esbuild',
+      chunkSizeWarningLimit: 1000,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vue-vendor': ['vue', 'vue-router', 'pinia'],
+            'utils-vendor': ['zod', 'slugify']
+          }
+        }
+      }
+    }
+  },
+
+  features: {
+    inlineStyles: true
+  },
+
+  eslint: {
+    config: {
+      stylistic: {
+        commaDangle: 'never',
+        braceStyle: '1tbs'
+      }
+    }
+  },
+
+  fonts: false
 })

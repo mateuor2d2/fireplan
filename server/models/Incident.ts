@@ -68,6 +68,5 @@ const IncidentSchema = new mongoose.Schema({
 
 IncidentSchema.index({ tenantId: 1, centerId: 1, status: 1 })
 IncidentSchema.index({ tenantId: 1, createdAt: -1 })
-IncidentSchema.index({ code: 1 })
 
 export const Incident = mongoose.model('Incident', IncidentSchema)

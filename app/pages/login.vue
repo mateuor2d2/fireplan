@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import * as z from 'zod'
-import type { FormSubmitEvent } from '@nuxt/ui'
-
 definePageMeta({
   layout: 'auth'
 })
@@ -13,40 +10,29 @@ useSeoMeta({
 
 const toast = useToast()
 const router = useRouter()
-const route = useRoute()
 
-onMounted(() => {
-  const error = route.query.error
-  if (error) {
-    toast.add({
-      title: 'Error de autenticación',
-      description: decodeURIComponent(error as string),
-      color: 'error'
-    })
-  }
-})
-
-const schema = z.object({
-  email: z.string().email('Email inválido'),
-  password: z.string().min(1, 'La contraseña es obligatoria')
-})
-
-type Schema = z.output<typeof schema>
-
-const state = reactive<Partial<Schema>>({
-  email: undefined,
-  password: undefined
-})
-
-const showPassword = ref(false)
+const email = ref('')
+const password = ref('')
 const loading = ref(false)
 
-async function onSubmit(event: FormSubmitEvent<Schema>) {
+async function handleLogin() {
+  if (!email.value || !password.value) {
+    toast.add({
+      title: 'Error',
+      description: 'Email y contraseña son obligatorios',
+      color: 'error'
+    })
+    return
+  }
+
   loading.value = true
   try {
     const data = await $fetch('/api/auth/login', {
       method: 'POST',
-      body: event.data
+      body: {
+        email: email.value,
+        password: password.value
+      }
     }) as any
 
     toast.add({
@@ -55,9 +41,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       color: 'success'
     })
 
-    // Use redirect from backend based on role
     await router.push(data.redirect || '/protected')
   } catch (error: any) {
+    console.error('Login error:', error)
     toast.add({
       title: 'Error al iniciar sesión',
       description: error.data?.message || error.message || 'Credenciales inválidas',
@@ -77,42 +63,28 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       <p class="login-subtitle">Plan de Emergencia y Autoprotección</p>
     </div>
 
-    <UForm
-      :schema="schema"
-      :state="state"
-      class="login-form"
-      @submit="onSubmit"
-    >
-      <UFormField label="Email" name="email">
+    <form class="login-form" @submit.prevent="handleLogin">
+      <div class="space-y-2">
+        <label class="text-sm font-medium">Email</label>
         <UInput
-          v-model="state.email"
+          v-model="email"
           type="email"
           placeholder="tu@empresa.com"
           icon="i-heroicons-envelope"
           autocomplete="email"
         />
-      </UFormField>
+      </div>
 
-      <UFormField label="Contraseña" name="password">
+      <div class="space-y-2">
+        <label class="text-sm font-medium">Contraseña</label>
         <UInput
-          v-model="state.password"
-          :type="showPassword ? 'text' : 'password'"
+          v-model="password"
+          type="password"
           placeholder="••••••••"
           icon="i-heroicons-lock-closed"
-          :ui="{ trailing: 'pr-0' }"
           autocomplete="current-password"
-        >
-          <template #trailing>
-            <UButton
-              color="neutral"
-              variant="link"
-              :icon="showPassword ? 'i-heroicons-eye-slash' : 'i-heroicons-eye'"
-              :padded="false"
-              @click="showPassword = !showPassword"
-            />
-          </template>
-        </UInput>
-      </UFormField>
+        />
+      </div>
 
       <div class="login-actions">
         <UButton
@@ -148,7 +120,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           </UButton>
         </p>
       </div>
-    </UForm>
+    </form>
   </div>
 </template>
 

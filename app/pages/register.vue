@@ -180,8 +180,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 }
 
 .register-logo {
-  width: 64px;
-  height: 64px;
+  width: 200px;
+  height: auto;
   margin: 0 auto 1rem;
 }
 

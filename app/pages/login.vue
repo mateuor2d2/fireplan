@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import * as z from 'zod'
 import type { FormSubmitEvent } from '@nuxt/ui'
-import { useUserStore } from '~/stores/user'
 
 definePageMeta({
   layout: 'auth'
@@ -13,7 +12,6 @@ useSeoMeta({
 })
 
 const toast = useToast()
-const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
 
@@ -30,7 +28,7 @@ onMounted(() => {
 
 const schema = z.object({
   email: z.string().email('Email inválido'),
-  password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres')
+  password: z.string().min(1, 'La contraseña es obligatoria')
 })
 
 type Schema = z.output<typeof schema>
@@ -41,22 +39,32 @@ const state = reactive<Partial<Schema>>({
 })
 
 const showPassword = ref(false)
+const loading = ref(false)
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
+  loading.value = true
   try {
-    await userStore.login(event.data.email, event.data.password)
+    const data = await $fetch('/api/auth/login', {
+      method: 'POST',
+      body: event.data
+    }) as any
+
     toast.add({
       title: '¡Bienvenido!',
       description: 'Has iniciado sesión correctamente.',
       color: 'success'
     })
-    await router.push('/protected')
+
+    // Use redirect from backend based on role
+    await router.push(data.redirect || '/protected')
   } catch (error: any) {
     toast.add({
       title: 'Error al iniciar sesión',
-      description: error.message || 'Credenciales inválidas',
+      description: error.data?.message || error.message || 'Credenciales inválidas',
       color: 'error'
     })
+  } finally {
+    loading.value = false
   }
 }
 </script>
@@ -112,7 +120,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           color="primary"
           size="lg"
           block
-          :loading="userStore.loading"
+          :loading="loading"
         >
           Iniciar Sesión
         </UButton>
@@ -156,8 +164,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 }
 
 .login-logo {
-  width: 64px;
-  height: 64px;
+  width: 200px;
+  height: auto;
   margin: 0 auto 1rem;
 }
 

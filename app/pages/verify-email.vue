@@ -76,8 +76,8 @@ onMounted(async () => {
 }
 
 .verify-logo {
-  width: 64px;
-  height: 64px;
+  width: 200px;
+  height: auto;
   margin: 0 auto 2rem;
 }
 

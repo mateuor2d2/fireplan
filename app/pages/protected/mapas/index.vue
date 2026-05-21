@@ -69,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ middleware: 'auth', layout: 'default' })
+definePageMeta({ middleware: 'auth', layout: 'app' })
 const toast = useToast()
 const puntoEncuentro = reactive({ lat: '', lng: '', descripcion: '' })
 const centroControl = reactive({ lat: '', lng: '', descripcion: '' })

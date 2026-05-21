@@ -62,6 +62,7 @@
 
 <script setup lang="ts">
 const userStore = useUserStore()
+definePageMeta({ layout: "app" })
 const store = useFireplanStore()
 const { centers, loading } = storeToRefs(store)
 const workers = ref<any[]>([])

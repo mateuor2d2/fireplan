@@ -1,3 +1,14 @@
+<script setup lang="ts">
+definePageMeta({ layout: 'app' })
+const route = useRoute()
+const center = ref(null)
+onMounted(async () => {
+  const id = route.params.id
+  const res = await ('/api/v1/centers/' + id) as any
+  center.value = res.data
+})
+</script>
+
 <template>
   <div class="p-6">
     <UButton icon="i-heroicons-arrow-left" variant="ghost" @click="$router.back()" class="mb-4">Volver</UButton>
@@ -21,13 +32,3 @@
     <div v-else class="text-center py-10"><UIcon name="i-heroicons-arrow-path" class="w-8 h-8 animate-spin mx-auto" /></div>
   </div>
 </template>
-
-<script setup lang="ts">
-const route = useRoute()
-const center = ref(null)
-onMounted(async () => {
-  const id = route.params.id
-  const res = await $fetch('/api/v1/centers/' + id) as any
-  center.value = res.data
-})
-</script>

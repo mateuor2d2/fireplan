@@ -27,6 +27,7 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ layout: "app" })
 const store = useFireplanStore()
 const { centers, plans } = storeToRefs(store)
 const isOpen = ref(false)

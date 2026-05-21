@@ -64,6 +64,7 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({ layout: "app" })
 const store = useFireplanStore()
 const { centers, loading } = storeToRefs(store)
 const workers = ref<any[]>([])

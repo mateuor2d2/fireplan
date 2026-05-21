@@ -2,48 +2,90 @@
 import { useUserStore } from '~/stores/user'
 
 const userStore = useUserStore()
-const userId = userStore.user._id
-const userRole = userStore.user.role
 const helpOpen = ref(false)
 
-// Subscription indicator
-const { planName, isActive, isStarter } = useSubscription()
+const userRole = computed(() => userStore.user?.role || 'user')
+const userId = computed(() => userStore.user?._id || '')
 
 const linksHeader = computed(() => {
-  const mainLinks: any[] = [
-    {
-      label: 'Obras',
-      icon: 'i-lucide-home',
-      to: '/protected/logged'
-    }
-  ]
+  const mainLinks: any[] = []
 
-  if (userRole !== 'control') {
+  // Dashboard según rol
+  if (userRole.value === 'superadmin') {
     mainLinks.push({
-      label: 'Usuario',
-      icon: 'i-lucide-user-circle',
-      to: '/protected/usuarios/' + userId + '/usuario'
+      label: 'Admin',
+      icon: 'i-heroicons-shield-check',
+      to: '/protected/admin'
     })
+  } else if (userRole.value === 'tenant') {
     mainLinks.push({
-      label: 'Pagos',
-      icon: 'i-lucide-credit-card',
-      to: '/protected/usuarios/payments'
+      label: 'Mi Empresa',
+      icon: 'i-heroicons-building-office',
+      to: '/protected/tenant'
+    })
+  } else if (userRole.value === 'centroadmin') {
+    mainLinks.push({
+      label: 'Mi Centro',
+      icon: 'i-heroicons-building-office-2',
+      to: '/protected/centro'
+    })
+  } else {
+    mainLinks.push({
+      label: 'Dashboard',
+      icon: 'i-heroicons-home',
+      to: '/protected'
     })
   }
 
+  // Centros (para tenant y superadmin)
+  if (['tenant', 'superadmin'].includes(userRole.value)) {
+    mainLinks.push({
+      label: 'Centros',
+      icon: 'i-heroicons-building-office-2',
+      to: '/protected/centers'
+    })
+  }
+
+  // Plan de Emergencia (todos excepto user básico)
+  if (userRole.value !== 'user') {
+    mainLinks.push({
+      label: 'Plan',
+      icon: 'i-heroicons-document-text',
+      to: '/protected/emergency-plans'
+    })
+  }
+
+  // Equipos (todos)
   mainLinks.push({
-    label: 'Settings',
-    icon: 'i-lucide-wrench',
-    to: '/protected/usuarios/' + userId + '/settings'
+    label: 'Equipos',
+    icon: 'i-heroicons-qr-code',
+    to: '/protected/equipos'
+  })
+
+  // Simulacros (todos excepto user básico)
+  if (userRole.value !== 'user') {
+    mainLinks.push({
+      label: 'Simulacros',
+      icon: 'i-heroicons-clipboard-document-check',
+      to: '/protected/simulacros'
+    })
+  }
+
+  // Mapas (todos)
+  mainLinks.push({
+    label: 'Mapas',
+    icon: 'i-heroicons-map',
+    to: '/protected/mapas'
   })
 
   return [
     mainLinks,
     [{
       label: 'Salir',
-      icon: 'i-lucide-power',
+      icon: 'i-heroicons-power',
       onClick: async () => {
         await userStore.logout()
+        await navigateTo('/login')
       }
     }]
   ]
@@ -59,25 +101,6 @@ const linksHeader = computed(() => {
           class="w-full justify-center"
         />
         <div class="flex items-center gap-2">
-          <UBadge
-            v-if="planName"
-            :color="isActive ? 'success' : 'warning'"
-            variant="subtle"
-            size="sm"
-            class="hidden sm:flex"
-          >
-            {{ planName }}
-          </UBadge>
-          <UButton
-            v-if="isStarter"
-            size="xs"
-            color="primary"
-            variant="soft"
-            to="/protected/pricing"
-            class="hidden sm:inline-flex"
-          >
-            Actualizar plan
-          </UButton>
           <ColorSelector />
           <HelpButton @click="helpOpen = true" />
         </div>

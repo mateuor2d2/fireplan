@@ -61,7 +61,7 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ middleware: 'auth', layout: 'default' })
+definePageMeta({ middleware: 'auth', layout: 'app' })
 const toast = useToast()
 const simulacros = ref<any[]>([])
 const loading = ref(false)

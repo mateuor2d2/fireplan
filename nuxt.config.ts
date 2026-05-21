@@ -31,7 +31,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     mongodbUri: process.env.ME_CONFIG_MONGODB_URL || 'mongodb://localhost:27017/fireplan',
-    jwtSecret: process.env.JWT_SECRET || 'your-jwt-secret-key',
+    jwtSecret: process.env.JWT_SECRET,
     stripeSecretKey: process.env.STRIPE_SECRET_KEY,
     stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
     public: {

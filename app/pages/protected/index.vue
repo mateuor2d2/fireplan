@@ -2,6 +2,31 @@
   <div class="p-6">
     <h1 class="text-2xl font-bold mb-2">FirePlan — Mi Dashboard</h1>
     <p class="text-gray-500 mb-6">Bienvenido, {{ userStore.user?.name || userStore.user?.email }}</p>
+
+    <!-- Accesos rapidos -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+      <UButton to="/protected/centers" icon="i-heroicons-building-office-2" color="primary" variant="soft" block class="h-20 flex-col">
+        <span class="text-sm font-semibold">Centros</span>
+        <span class="text-xs text-gray-500">{{ centers.length }}</span>
+      </UButton>
+      <UButton to="/protected/plans" icon="i-heroicons-document-text" color="primary" variant="soft" block class="h-20 flex-col">
+        <span class="text-sm font-semibold">Planes</span>
+      </UButton>
+      <UButton to="/protected/workers" icon="i-heroicons-fire-extinguisher" color="primary" variant="soft" block class="h-20 flex-col">
+        <span class="text-sm font-semibold">Equipos</span>
+        <span class="text-xs text-gray-500">{{ workers.length }}</span>
+      </UButton>
+      <UButton to="/protected/incidents" icon="i-heroicons-exclamation-triangle" color="primary" variant="soft" block class="h-20 flex-col">
+        <span class="text-sm font-semibold">Incidentes</span>
+      </UButton>
+      <UButton to="/protected/simulacros" icon="i-heroicons-clipboard-document-check" color="primary" variant="soft" block class="h-20 flex-col">
+        <span class="text-sm font-semibold">Simulacros</span>
+      </UButton>
+      <UButton to="/protected/mapas" icon="i-heroicons-map" color="primary" variant="soft" block class="h-20 flex-col">
+        <span class="text-sm font-semibold">Mapas</span>
+      </UButton>
+    </div>
+
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
       <UCard>
         <template #header>
@@ -17,7 +42,7 @@
         <template #header>
           <div class="flex items-center gap-2">
             <UIcon name="i-heroicons-users" class="w-5 h-5" />
-            <span class="font-semibold">Compañeros</span>
+            <span class="font-semibold">Companeros</span>
           </div>
         </template>
         <p class="text-3xl font-bold">{{ workers.length }}</p>
@@ -50,7 +75,7 @@
         <div class="space-y-2 text-sm">
           <p v-if="center.activity"><strong>Actividad:</strong> {{ center.activity }}</p>
           <p v-if="center.address?.city"><strong>Ciudad:</strong> {{ center.address.city }}</p>
-          <p v-if="center.maxOccupancy"><strong>Ocupación máx:</strong> {{ center.maxOccupancy }}</p>
+          <p v-if="center.maxOccupancy"><strong>Ocupacion max:</strong> {{ center.maxOccupancy }}</p>
         </div>
         <template #footer>
           <UButton :to="`/protected/centers/${center._id}`" size="sm" block>Ver Detalles</UButton>

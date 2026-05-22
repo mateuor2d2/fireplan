@@ -1,8 +1,18 @@
 <template>
   <div class="p-6">
+    <!-- Accesos rapidos -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+      <UButton to="/protected/centers" icon="i-heroicons-building-office-2" color="primary" variant="soft" block class="h-20 flex-col"><span class="text-sm font-semibold">Centros</span></UButton>
+      <UButton to="/protected/plans" icon="i-heroicons-document-text" color="primary" variant="soft" block class="h-20 flex-col"><span class="text-sm font-semibold">Planes</span></UButton>
+      <UButton to="/protected/workers" icon="i-heroicons-fire-extinguisher" color="primary" variant="soft" block class="h-20 flex-col"><span class="text-sm font-semibold">Equipos</span></UButton>
+      <UButton to="/protected/incidents" icon="i-heroicons-exclamation-triangle" color="primary" variant="soft" block class="h-20 flex-col"><span class="text-sm font-semibold">Incidentes</span></UButton>
+      <UButton to="/protected/simulacros" icon="i-heroicons-clipboard-document-check" color="primary" variant="soft" block class="h-20 flex-col"><span class="text-sm font-semibold">Simulacros</span></UButton>
+      <UButton to="/protected/mapas" icon="i-heroicons-map" color="primary" variant="soft" block class="h-20 flex-col"><span class="text-sm font-semibold">Mapas</span></UButton>
+    </div>
+
     <div class="flex justify-between items-center mb-6">
       <div>
-        <h1 class="text-2xl font-bold">FirePlan — Gestión Tenant</h1>
+        <h1 class="text-2xl font-bold">FirePlan — Gestion Tenant</h1>
         <p class="text-gray-500">Administra tus centros y personal</p>
       </div>
       <UButton to="/protected/centers" icon="i-heroicons-plus" color="primary">Nuevo Centro</UButton>

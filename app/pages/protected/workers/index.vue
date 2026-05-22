@@ -5,7 +5,7 @@
         <h1 class="text-2xl font-bold">Trabajadores</h1>
         <p class="text-gray-500">Gestiona el personal de emergencia</p>
       </div>
-      <UButton icon="i-heroicons-plus" color="primary" @click="showCreateModal = true">Nuevo Trabajador</UButton>
+      <UButton icon="i-heroicons-plus" color="primary" @click="modalOpen = true">Nuevo Trabajador</UButton>
     </div>
     <div v-if="loading" class="text-center py-8"><UIcon name="i-heroicons-arrow-path" class="w-8 h-8 animate-spin" /></div>
     <div v-else-if="workers.length === 0" class="text-gray-500 py-8 text-center">No hay trabajadores registrados.</div>

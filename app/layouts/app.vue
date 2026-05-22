@@ -101,7 +101,6 @@ const linksHeader = computed(() => {
           class="w-full justify-center"
         />
         <div class="flex items-center gap-2">
-          <ColorSelector />
           <HelpButton @click="helpOpen = true" />
         </div>
       </UDashboardToolbar>

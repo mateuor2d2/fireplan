@@ -5,7 +5,7 @@
         <h1 class="text-2xl font-bold">FirePlan — Gestión Tenant</h1>
         <p class="text-gray-500">Administra tus centros y personal</p>
       </div>
-      <UButton to="/protected/centers/new" icon="i-heroicons-plus" color="primary">Nuevo Centro</UButton>
+      <UButton to="/protected/centers" icon="i-heroicons-plus" color="primary">Nuevo Centro</UButton>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
       <UCard>
@@ -35,7 +35,7 @@
     </div>
     <h2 class="text-lg font-semibold mb-3">Centros</h2>
     <div v-if="loading" class="text-center py-8"><UIcon name="i-heroicons-arrow-path" class="w-8 h-8 animate-spin" /></div>
-    <div v-else-if="centers.length === 0" class="text-gray-500 py-8 text-center">No hay centros registrados. <UButton to="/protected/centers/new" variant="link">Crear uno</UButton></div>
+    <div v-else-if="centers.length === 0" class="text-gray-500 py-8 text-center">No hay centros registrados. <UButton to="/protected/centers" variant="link">Crear uno</UButton></div>
     <div v-else class="space-y-3">
       <UCard v-for="center in centers" :key="center._id">
         <template #header>
@@ -46,7 +46,7 @@
             </div>
             <div class="flex gap-2">
               <UButton :to="`/protected/centers/${center._id}`" size="xs" variant="ghost" icon="i-heroicons-eye" />
-              <UButton :to="`/protected/centers/${center._id}/edit`" size="xs" variant="ghost" icon="i-heroicons-pencil" color="warning" />
+              <UButton size="xs" variant="ghost" icon="i-heroicons-pencil" color="warning" @click="$router.push(`/protected/centers/${center._id}`)" />
               <UButton size="xs" variant="ghost" icon="i-heroicons-trash" color="error" @click="deleteCenter(center._id)" />
             </div>
           </div>
@@ -71,10 +71,10 @@ onMounted(async () => {
   await store.fetchCenters()
   await store.fetchPlans()
   await store.fetchIncidents()
-  try { const res = await $fetch('/api/v1/workers') as any; workers.value = res.data || [] } catch (e) { }
+  try { const res = await $fetch('/api/v1/workers') as any; workers.value = res.data || [] } catch (e) {}
 })
 async function deleteCenter(id: string) {
-  if (!confirm('¿Eliminar este centro?')) return
+  if (!confirm('Eliminar este centro?')) return
   try {
     await $fetch(`/api/v1/centers/${id}`, { method: 'DELETE' })
     await store.fetchCenters()

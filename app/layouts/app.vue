@@ -51,7 +51,7 @@ const linksHeader = computed(() => {
     mainLinks.push({
       label: 'Plan',
       icon: 'i-heroicons-document-text',
-      to: '/protected/emergency-plans'
+      to: '/protected/plans'
     })
   }
 
@@ -59,7 +59,7 @@ const linksHeader = computed(() => {
   mainLinks.push({
     label: 'Equipos',
     icon: 'i-heroicons-qr-code',
-    to: '/protected/equipos'
+    to: '/protected/workers'
   })
 
   // Simulacros (todos excepto user básico)

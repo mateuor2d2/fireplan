@@ -4,7 +4,7 @@ const route = useRoute()
 const center = ref(null)
 onMounted(async () => {
   const id = route.params.id
-  const res = await ('/api/v1/centers/' + id) as any
+  const res = await $fetch('/api/v1/centers/' + id) as any
   center.value = res.data
 })
 </script>

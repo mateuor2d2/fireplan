@@ -48,7 +48,7 @@ export const useFireplanStore = defineStore('fireplan', () => {
   async function fetchCenters() {
     loading.value = true
     try {
-      const res = await ('/api/v1/centers')
+      const res = await $fetch('/api/v1/centers') as any
       centers.value = res.data || []
     } catch (e: any) { error.value = e.message }
     finally { loading.value = false }
@@ -57,7 +57,7 @@ export const useFireplanStore = defineStore('fireplan', () => {
   async function fetchPlans(centerId?: string) {
     loading.value = true
     try {
-      const res = await ('/api/v1/plans', { query: centerId ? { centerId } : {} })
+      const res = await $fetch('/api/v1/plans', { query: centerId ? { centerId } : {} }) as any
       plans.value = res.data || []
     } catch (e: any) { error.value = e.message }
     finally { loading.value = false }
@@ -66,26 +66,26 @@ export const useFireplanStore = defineStore('fireplan', () => {
   async function fetchIncidents(centerId?: string) {
     loading.value = true
     try {
-      const res = await ('/api/v1/incidents', { query: centerId ? { centerId } : {} })
+      const res = await $fetch('/api/v1/incidents', { query: centerId ? { centerId } : {} }) as any
       incidents.value = res.data || []
     } catch (e: any) { error.value = e.message }
     finally { loading.value = false }
   }
 
   async function createCenter(data: any) {
-    const res = await ('/api/v1/centers', { method: 'POST', body: data })
+    const res = await $fetch('/api/v1/centers', { method: 'POST', body: data }) as any
     centers.value.unshift(res.data)
     return res.data
   }
 
   async function createPlan(data: any) {
-    const res = await ('/api/v1/plans', { method: 'POST', body: data })
+    const res = await $fetch('/api/v1/plans', { method: 'POST', body: data }) as any
     plans.value.unshift(res.data)
     return res.data
   }
 
   async function createIncident(data: any) {
-    const res = await ('/api/v1/incidents', { method: 'POST', body: data })
+    const res = await $fetch('/api/v1/incidents', { method: 'POST', body: data }) as any
     incidents.value.unshift(res.data)
     return res.data
   }

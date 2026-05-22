@@ -38,7 +38,7 @@
           <p v-if="myCenter.maxOccupancy"><strong>Ocupación máx:</strong> {{ myCenter.maxOccupancy }}</p>
         </div>
         <div class="mt-4 flex gap-2">
-          <UButton :to="`/protected/centers/${myCenter._id}/plan`" icon="i-heroicons-document-text">Plan de Emergencia</UButton>
+          <UButton :to="`/protected/plans?centerId=${myCenter._id}`" icon="i-heroicons-document-text">Plan de Emergencia</UButton>
           <UButton :to="`/protected/workers?centerId=${myCenter._id}`" icon="i-heroicons-fire-extinguisher" variant="outline">Equipos</UButton>
         </div>
       </UCard>

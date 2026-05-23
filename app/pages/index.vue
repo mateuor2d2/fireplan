@@ -213,8 +213,8 @@ useSeoMeta({
 }
 
 .logo-anim {
-  width: 120px;
-  height: 120px;
+  width: 200px;
+  height: 200px;
   animation: fade-in-up 0.8s ease-out;
 }
 

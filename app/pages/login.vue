@@ -4,12 +4,13 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: 'Iniciar Sesión - FirePlan',
-  description: 'Accede a tu cuenta de FirePlan para gestionar tu plan de emergencia y autoprotección.'
+  title: 'Iniciar Sesion - FirePlan',
+  description: 'Accede a tu cuenta de FirePlan para gestionar tu plan de emergencia y autoproteccion.'
 })
 
 const toast = useToast()
 const router = useRouter()
+const userStore = useUserStore()
 
 const email = ref('')
 const password = ref('')
@@ -36,11 +37,14 @@ async function handleLogin() {
     }) as any
 
     toast.add({
-      title: '¡Bienvenido!',
+      title: '»Bienvenido!',
       description: 'Has iniciado sesión correctamente.',
       color: 'success'
     })
 
+    userStore.setUser(data.user)
+    userStore.setAccesstoken(data.token)
+    userStore.loggedIn = true
     await router.push(data.redirect || '/protected')
   } catch (error: any) {
     console.error('Login error:', error)
@@ -80,7 +84,7 @@ async function handleLogin() {
         <UInput
           v-model="password"
           type="password"
-          placeholder="••••••••"
+          placeholder="££õ»£õ»£õ»£õ»"
           icon="i-heroicons-lock-closed"
           autocomplete="current-password"
         />
@@ -105,18 +109,18 @@ async function handleLogin() {
           color="neutral"
           size="sm"
         >
-          ¿Olvidaste tu contraseña?
+          ïOlvidaste tu contraseña?
         </UButton>
 
         <p class="register-prompt">
-          ¿No tienes cuenta?
+          ßNo tienes cuenta?
           <UButton
             to="/register"
             variant="link"
             color="primary"
             size="sm"
           >
-            Regístrate
+            Registrate
           </UButton>
         </p>
       </div>

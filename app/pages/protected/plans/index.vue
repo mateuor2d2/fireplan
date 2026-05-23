@@ -5,10 +5,10 @@
       <UButton icon="i-heroicons-plus" @click="openCreate">Nuevo plan</UButton>
     </div>
     <UTable :rows="plans" :columns="columns">
-      <template #status-data="{ row }">
+      <template #status-cell="{ row }">
         <UBadge :color="row.status === 'published' ? 'green' : row.status === 'draft' ? 'yellow' : 'gray'">{{ row.status }}</UBadge>
       </template>
-      <template #actions-data="{ row }">
+      <template #actions-cell="{ row }">
         <div class="flex gap-2">
           <UButton size="xs" variant="ghost" icon="i-heroicons-pencil" color="warning" @click="editPlan(row)" />
           <UButton size="xs" variant="ghost" icon="i-heroicons-trash" color="error" @click="deletePlan(row._id)" />
@@ -22,7 +22,7 @@
         <div class="space-y-3">
           <USelectMenu v-model="form.centerId" :items="centerOptions" value-key="value" label-key="label" placeholder="Centro" />
           <UInput v-model="form.denominacion" placeholder="Denominacion" />
-          <USelect v-model="form.status" :options="['draft', 'published', 'archived']" />
+          <USelect v-model="form.status" :items="['draft', 'published', 'archived']" />
         </div>
       </template>
       <template #footer>
@@ -46,14 +46,14 @@ const saving = ref(false)
 const currentId = ref('')
 const form = reactive({ centerId: '', denominacion: '', status: 'draft' })
 const columns = [
-  { key: 'datosIdentificativos.denominacion', label: 'Denominacion' },
-  { key: 'version', label: 'Version' },
-  { key: 'status', label: 'Estado' },
-  { key: 'createdAt', label: 'Creado' },
-  { key: 'actions', label: '' },
-      { key: 'view', label: '' }
+  { accessorKey: 'datosIdentificativos.denominacion', header: 'Denominacion' },
+  { accessorKey: 'version', header: 'Version' },
+  { accessorKey: 'status', header: 'Estado' },
+  { accessorKey: 'createdAt', header: 'Creado' },
+  { accessorKey: 'actions', header: 'Acciones' },
+      { accessorKey: 'view', header: 'Ver' }
 ]
-const centerOptions = computed(() => centers.value.map(c => ({ label: c.name, value: c._id })))
+const centerOptions = computed(() => centers.value.map(c => ({ header: c.name, value: c._id })))
 onMounted(() => { store.fetchCenters(); store.fetchPlans() })
 
 function openCreate() {

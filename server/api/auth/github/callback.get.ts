@@ -105,7 +105,7 @@ export default defineEventHandler(async (event) => {
       httpOnly: true,
       path: '/',
       maxAge: 60 * 60 * 24 * 7, // 7 days
-      secure: process.env.NODE_ENV === 'production',
+      secure: false,
       sameSite: 'strict'
     })
 

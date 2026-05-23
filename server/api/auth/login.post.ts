@@ -40,7 +40,7 @@ export default defineEventHandler(async (event) => {
     
     setCookie(event, 'auth_token', token, {
       httpOnly: true, path: '/', maxAge: 60 * 60 * 24 * 7,
-      secure: process.env.NODE_ENV === 'production', sameSite: 'strict'
+      secure: false, sameSite: 'strict'
     })
     
     const { password, ...userWithoutPassword } = user

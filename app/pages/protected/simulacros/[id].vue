@@ -71,7 +71,7 @@ async function deleteSimulacro() {
             <UInput v-model="form.tipo" placeholder="Tipo" />
             <UInput v-model="form.objetivo" placeholder="Objetivo" />
             <UInput v-model="form.fechaProgramada" type="datetime-local" />
-            <USelect v-model="form.estado" :options="['programado','en_curso','completado','cancelado']" />
+            <USelect v-model="form.estado" :items="['programado','en_curso','completado','cancelado']" />
           </div>
           <template #footer>
             <div class="flex justify-end gap-2">

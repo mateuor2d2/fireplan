@@ -72,10 +72,10 @@ async function deleteIncident() {
           <template #header><span class="font-semibold">Editar Incidente</span></template>
           <div class="space-y-3">
             <UInput v-model="form.title" placeholder="Titulo" />
-            <USelect v-model="form.type" :options="['real','simulacro','prueba']" />
+            <USelect v-model="form.type" :items="['real','simulacro','prueba']" />
             <UInput v-model="form.category" placeholder="Categoria" />
-            <USelect v-model="form.severity" :options="['leve','moderado','grave','critico']" />
-            <USelect v-model="form.status" :options="['open','in_progress','resolved','closed']" />
+            <USelect v-model="form.severity" :items="['leve','moderado','grave','critico']" />
+            <USelect v-model="form.status" :items="['open','in_progress','resolved','closed']" />
           </div>
           <template #footer>
             <div class="flex justify-end gap-2">

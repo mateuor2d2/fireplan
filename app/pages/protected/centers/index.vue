@@ -5,13 +5,13 @@
       <UButton icon="i-heroicons-plus" @click="openCreate">Nuevo centro</UButton>
     </div>
     <UTable :rows="centers" :columns="columns">
-      <template #name-data="{ row }">
+      <template #name-cell="{ row }">
         <NuxtLink :to="'/protected/centers/' + row._id" class="text-primary hover:underline">{{ row.name }}</NuxtLink>
       </template>
-      <template #status-data="{ row }">
+      <template #status-cell="{ row }">
         <UBadge :color="row.status === 'active' ? 'green' : 'gray'">{{ row.status }}</UBadge>
       </template>
-      <template #actions-data="{ row }">
+      <template #actions-cell="{ row }">
         <div class="flex gap-2">
           <UButton size="xs" variant="ghost" icon="i-heroicons-pencil" color="warning" @click="editCenter(row)" />
           <UButton size="xs" variant="ghost" icon="i-heroicons-trash" color="error" @click="deleteCenter(row._id)" />
@@ -50,12 +50,12 @@ const saving = ref(false)
 const currentId = ref('')
 const form = reactive({ name: '', activity: '', sector: '', maxOccupancy: '', status: 'active' })
 const columns = [
-  { key: 'name', label: 'Nombre' },
-  { key: 'activity', label: 'Actividad' },
-  { key: 'sector', label: 'Sector' },
-  { key: 'maxOccupancy', label: 'Aforo' },
-  { key: 'status', label: 'Estado' },
-  { key: 'actions', label: 'Acciones' }
+  { accessorKey: 'name', header: 'Nombre' },
+  { accessorKey: 'activity', header: 'Actividad' },
+  { accessorKey: 'sector', header: 'Sector' },
+  { accessorKey: 'maxOccupancy', header: 'Aforo' },
+  { accessorKey: 'status', header: 'Estado' },
+  { accessorKey: 'actions', header: 'Acciones' }
 ]
 onMounted(() => store.fetchCenters())
 

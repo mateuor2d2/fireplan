@@ -5,13 +5,13 @@
       <UButton icon="i-heroicons-plus" @click="openCreate">Nuevo incidente</UButton>
     </div>
     <UTable :rows="incidents" :columns="columns">
-      <template #severity-data="{ row }">
+      <template #severity-cell="{ row }">
         <UBadge :color="row.severity === 'critico' ? 'red' : row.severity === 'grave' ? 'orange' : row.severity === 'moderado' ? 'yellow' : 'green'">{{ row.severity }}</UBadge>
       </template>
-      <template #status-data="{ row }">
+      <template #status-cell="{ row }">
         <UBadge :color="row.status === 'open' ? 'red' : row.status === 'in_progress' ? 'yellow' : 'green'">{{ row.status }}</UBadge>
       </template>
-      <template #actions-data="{ row }">
+      <template #actions-cell="{ row }">
         <div class="flex gap-2">
           <UButton size="xs" variant="ghost" icon="i-heroicons-pencil" color="warning" @click="editIncident(row)" />
           <UButton size="xs" variant="ghost" icon="i-heroicons-trash" color="error" @click="deleteIncident(row._id)" />
@@ -25,11 +25,11 @@
         <div class="space-y-3">
           <USelectMenu v-model="form.centerId" :items="centerOptions" value-key="value" label-key="label" placeholder="Centro" />
           <UInput v-model="form.title" placeholder="Titulo" />
-          <USelect v-model="form.type" :options="['real','simulacro','prueba']" />
+          <USelect v-model="form.type" :items="['real','simulacro','prueba']" />
           <UInput v-model="form.category" placeholder="Categoria" />
-          <USelect v-model="form.severity" :options="['leve','moderado','grave','critico']" />
+          <USelect v-model="form.severity" :items="['leve','moderado','grave','critico']" />
           <UInput v-model="form.zone" placeholder="Zona" />
-          <USelect v-model="form.status" :options="['open','in_progress','resolved','closed']" />
+          <USelect v-model="form.status" :items="['open','in_progress','resolved','closed']" />
         </div>
       </template>
       <template #footer>
@@ -53,15 +53,15 @@ const saving = ref(false)
 const currentId = ref('')
 const form = reactive({ centerId: '', title: '', type: 'real', category: '', severity: 'leve', zone: '', status: 'open' })
 const columns = [
-  { key: 'code', label: 'Codigo' },
-  { key: 'title', label: 'Titulo' },
-  { key: 'type', label: 'Tipo' },
-  { key: 'category', label: 'Categoria' },
-  { key: 'severity', label: 'Severidad' },
-  { key: 'status', label: 'Estado' },
-  { key: 'actions', label: '' }
+  { accessorKey: 'code', header: 'Codigo' },
+  { accessorKey: 'title', header: 'Titulo' },
+  { accessorKey: 'type', header: 'Tipo' },
+  { accessorKey: 'category', header: 'Categoria' },
+  { accessorKey: 'severity', header: 'Severidad' },
+  { accessorKey: 'status', header: 'Estado' },
+  { accessorKey: 'actions', header: 'Acciones' }
 ]
-const centerOptions = computed(() => centers.value.map(c => ({ label: c.name, value: c._id })))
+const centerOptions = computed(() => centers.value.map(c => ({ header: c.name, value: c._id })))
 onMounted(() => { store.fetchCenters(); store.fetchIncidents() })
 
 function openCreate() {

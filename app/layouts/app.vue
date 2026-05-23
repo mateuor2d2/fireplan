@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { useUserStore } from '~/stores/user'
 
+const colorMode = useColorMode()
+const isDark = computed(() => colorMode.value === 'dark')
+
+function toggleColorMode() {
+  colorMode.preference = isDark.value ? 'light' : 'dark'
+}
+
 const userStore = useUserStore()
 const helpOpen = ref(false)
 
@@ -108,6 +115,12 @@ const linksHeader = computed(() => {
           class="w-full justify-center"
         />
         <div class="flex items-center gap-2">
+          <UButton
+            :icon="isDark ? 'i-heroicons-sun' : 'i-heroicons-moon'"
+            color="neutral"
+            variant="ghost"
+            @click="toggleColorMode"
+          />
           <HelpButton @click="helpOpen = true" />
         </div>
       </UDashboardToolbar>

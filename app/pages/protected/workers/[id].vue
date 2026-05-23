@@ -70,7 +70,7 @@ async function deleteWorker() {
             <UInput v-model="form.email" placeholder="Email" />
             <UInput v-model="form.phone" placeholder="Telefono" />
             <UInput v-model="form.emergencyRole" placeholder="Rol de emergencia" />
-            <USelect v-model="form.status" :options="['active','inactive']" />
+            <USelect v-model="form.status" :items="['active','inactive']" />
           </div>
           <template #footer>
             <div class="flex justify-end gap-2">

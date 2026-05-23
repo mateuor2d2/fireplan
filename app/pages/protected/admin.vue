@@ -9,12 +9,12 @@ const saving = ref(false)
 const currentId = ref('')
 const form = reactive({ name: '', slug: '', domain: '', status: 'active', plan: 'free' })
 const columns = [
-  { key: 'name', label: 'Nombre' },
-  { key: 'slug', label: 'Slug' },
-  { key: 'status', label: 'Estado' },
-  { key: 'plan', label: 'Plan' },
-  { key: 'createdAt', label: 'Creado' },
-  { key: 'actions', label: 'Acciones' }
+  { accessorKey: 'name', header: 'Nombre' },
+  { accessorKey: 'slug', header: 'Slug' },
+  { accessorKey: 'status', header: 'Estado' },
+  { accessorKey: 'plan', header: 'Plan' },
+  { accessorKey: 'createdAt', header: 'Creado' },
+  { accessorKey: 'actions', header: 'Acciones' }
 ]
 onMounted(() => fetchTenants())
 
@@ -83,10 +83,10 @@ async function deleteTenant(id: string) {
       <UButton icon="i-heroicons-plus" @click="openCreate">Nuevo Tenant</UButton>
     </div>
     <UTable :rows="tenants" :columns="columns">
-      <template #status-data="{ row }">
+      <template #status-cell="{ row }">
         <UBadge :color="row.status === 'active' ? 'green' : row.status === 'suspended' ? 'red' : 'gray'">{{ row.status }}</UBadge>
       </template>
-      <template #actions-data="{ row }">
+      <template #actions-cell="{ row }">
         <div class="flex gap-2">
           <UButton size="xs" variant="ghost" icon="i-heroicons-pencil" color="warning" @click="editTenant(row)" />
           <UButton size="xs" variant="ghost" icon="i-heroicons-trash" color="error" @click="deleteTenant(row._id)" />
@@ -100,8 +100,8 @@ async function deleteTenant(id: string) {
           <UInput v-model="form.name" placeholder="Nombre" required />
           <UInput v-model="form.slug" placeholder="Slug" required />
           <UInput v-model="form.domain" placeholder="Dominio" />
-          <USelect v-model="form.status" :options="['active', 'inactive', 'suspended']" />
-          <USelect v-model="form.plan" :options="['free', 'basic', 'pro', 'enterprise']" />
+          <USelect v-model="form.status" :items="['active', 'inactive', 'suspended']" />
+          <USelect v-model="form.plan" :items="['free', 'basic', 'pro', 'enterprise']" />
         </div>
       </template>
       <template #footer>

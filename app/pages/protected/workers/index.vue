@@ -28,7 +28,8 @@
         <template #footer>
           <div class="flex gap-2">
             <UButton size="xs" variant="ghost" icon="i-heroicons-pencil" color="warning" @click="editWorker(worker)">Editar</UButton>
-            <UButton size="xs" variant="ghost" icon="i-heroicons-trash" color="error" @click="deleteWorker(worker._id)">Eliminar</UButton>
+            <UButton size="xs" variant="ghost" icon="i-heroicons-trash" color="error" @click="deleteWorker(worker._id)" />
+            <UButton size="xs" variant="ghost" icon="i-heroicons-eye" :to="'/protected/workers/' + worker._id" />
           </div>
         </template>
       </UCard>

@@ -15,6 +15,7 @@
         <div class="flex gap-2">
           <UButton size="xs" variant="ghost" icon="i-heroicons-pencil" color="warning" @click="editIncident(row)" />
           <UButton size="xs" variant="ghost" icon="i-heroicons-trash" color="error" @click="deleteIncident(row._id)" />
+            <UButton size="xs" variant="ghost" icon="i-heroicons-eye" :to="'/protected/incidents/' + row._id" />
         </div>
       </template>
     </UTable>

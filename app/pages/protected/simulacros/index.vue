@@ -28,7 +28,8 @@
         </div>
         <template #footer>
           <div class="flex gap-2">
-            <UButton size="xs" variant="ghost" icon="i-heroicons-eye" @click="viewSimulacro(sim)">Ver</UButton>
+            <UButton size="xs" variant="ghost" icon="i-heroicons-eye" @click="viewSimulacro(sim)" />
+            <UButton size="xs" variant="ghost" icon="i-heroicons-eye" :to="'/protected/simulacros/' + sim._id" />
             <UButton size="xs" variant="ghost" icon="i-heroicons-pencil" color="warning" @click="editSimulacro(sim)">Editar</UButton>
             <UButton size="xs" variant="ghost" icon="i-heroicons-trash" color="error" @click="deleteSimulacro(sim._id)">Eliminar</UButton>
           </div>

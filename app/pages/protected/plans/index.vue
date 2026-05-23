@@ -12,6 +12,7 @@
         <div class="flex gap-2">
           <UButton size="xs" variant="ghost" icon="i-heroicons-pencil" color="warning" @click="editPlan(row)" />
           <UButton size="xs" variant="ghost" icon="i-heroicons-trash" color="error" @click="deletePlan(row._id)" />
+          <UButton size="xs" variant="ghost" icon="i-heroicons-eye" :to="'/protected/plans/' + row._id" />
         </div>
       </template>
     </UTable>
@@ -49,7 +50,8 @@ const columns = [
   { key: 'version', label: 'Version' },
   { key: 'status', label: 'Estado' },
   { key: 'createdAt', label: 'Creado' },
-  { key: 'actions', label: '' }
+  { key: 'actions', label: '' },
+      { key: 'view', label: '' }
 ]
 const centerOptions = computed(() => centers.value.map(c => ({ label: c.name, value: c._id })))
 onMounted(() => { store.fetchCenters(); store.fetchPlans() })

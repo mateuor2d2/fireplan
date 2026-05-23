@@ -26,7 +26,7 @@
           <UInput v-model="form.activity" placeholder="Actividad" />
           <UInput v-model="form.sector" placeholder="Sector" />
           <UInput v-model="form.maxOccupancy" placeholder="Aforo max" type="number" />
-          <USelect v-model="form.status" :options="['active', 'inactive']" />
+          <USelect v-model="form.status" :items="['active', 'inactive']" />
         </div>
       </template>
       <template #footer>
@@ -55,7 +55,7 @@ const columns = [
   { key: 'sector', label: 'Sector' },
   { key: 'maxOccupancy', label: 'Aforo' },
   { key: 'status', label: 'Estado' },
-  { key: 'actions', label: '' }
+  { key: 'actions', label: 'Acciones' }
 ]
 onMounted(() => store.fetchCenters())
 

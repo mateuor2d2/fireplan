@@ -37,19 +37,17 @@ const linksHeader = computed(() => {
     })
   }
 
-  // Centros (para tenant y superadmin)
-  if (['tenant', 'superadmin'].includes(userRole.value)) {
-    mainLinks.push({
-      label: 'Centros',
-      icon: 'i-heroicons-building-office-2',
-      to: '/protected/centers'
-    })
-  }
+  // Centros (todos los roles)
+  mainLinks.push({
+    label: 'Centros',
+    icon: 'i-heroicons-building-office-2',
+    to: '/protected/centers'
+  })
 
-  // Plan de Emergencia (todos excepto user básico)
+  // Planes (todos excepto user básico)
   if (userRole.value !== 'user') {
     mainLinks.push({
-      label: 'Plan',
+      label: 'Planes',
       icon: 'i-heroicons-document-text',
       to: '/protected/plans'
     })
@@ -58,9 +56,18 @@ const linksHeader = computed(() => {
   // Equipos (todos)
   mainLinks.push({
     label: 'Equipos',
-    icon: 'i-heroicons-qr-code',
+    icon: 'i-heroicons-users',
     to: '/protected/workers'
   })
+
+  // Incidentes (todos excepto user básico)
+  if (userRole.value !== 'user') {
+    mainLinks.push({
+      label: 'Incidentes',
+      icon: 'i-heroicons-exclamation-triangle',
+      to: '/protected/incidents'
+    })
+  }
 
   // Simulacros (todos excepto user básico)
   if (userRole.value !== 'user') {
